@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione del Gruppo Classe | Formazione CFP</title>
+    <!-- Google Fonts: Space Grotesk per il look neobrutalista e Inter per la leggibilità -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* Variabili Neobrutaliste */
+        :root {
+            --bg-color: #fdfbf7; /* Bianco sporco caldo */
+            --text-main: #111111;
+            --border-color: #000000;
+            --accent-yellow: #ffde59;
+            --accent-pink: #ff90e8;
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-orange: #fb923c;
+            --shadow-hard: 6px 6px 0px var(--border-color);
+            --shadow-hard-hover: 10px 10px 0px var(--border-color);
+            --border-thick: 4px solid var(--border-color);
+            --border-radius: 12px;
+        }
+
+        /* Reset e Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+
+        /* Barra di progresso in alto (Stile Apple) */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 6px;
+            background: var(--text-main);
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Elementi Neobrutalisti Comuni */
+        .brutal-box {
+            background-color: white;
+            border: var(--border-thick);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-hard);
+            padding: 2.5rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .brutal-box:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: var(--shadow-hard-hover);
+        }
+
+        .brutal-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--accent-yellow);
+            border: 3px solid var(--border-color);
+            border-radius: 50px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            box-shadow: 4px 4px 0px var(--border-color);
+            margin-bottom: 1.5rem;
+            transform: rotate(-2deg);
+        }
+
+        /* Layout a Sezioni (Scrollytelling) */
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        /* Sezione 1: Hero Copertina */
+        .hero-section {
+            background-color: var(--accent-yellow);
+            background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+            background-size: 30px 30px;
+            border-bottom: var(--border-thick);
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 6vw, 6rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            text-shadow: 4px 4px 0px white;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+            background: white;
+            padding: 1rem 2rem;
+            border: var(--border-thick);
+            box-shadow: var(--shadow-hard);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+        }
+
+        .scroll-indicator {
+            font-size: 3rem;
+            animation: bounce 2s infinite;
+            display: inline-block;
+            background: white;
+            border: var(--border-thick);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            line-height: 70px;
+            box-shadow: var(--shadow-hard);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        /* Grafiche CSS Integrate (Al posto delle immagini) */
+        
+        /* Omeostasi - Bilancia Astratta */
+        .balance-graphic {
+            position: relative;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .balance-beam {
+            width: 80%;
+            height: 20px;
+            background: var(--text-main);
+            position: absolute;
+            transform-origin: center;
+            animation: seesaw 6s ease-in-out infinite;
+        }
+        .balance-base {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid var(--text-main);
+            position: absolute;
+            bottom: 50px;
+        }
+        .balance-weight {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-pink);
+            border: var(--border-thick);
+            border-radius: 50%;
+            position: absolute;
+            top: -90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .weight-left { left: 0; background: var(--accent-blue); }
+        .weight-right { right: 0; background: var(--accent-pink); }
+        @keyframes seesaw {
+            0% { transform: rotate(5deg); }
+            50% { transform: rotate(-5deg); }
+            100% { transform: rotate(5deg); }
+        }
+
+        /* Diagramma Insegnante/Sistema */
+        .venn-graphic {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .venn-circle {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: var(--border-thick);
+            position: absolute;
+            mix-blend-mode: multiply;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 1rem;
+        }
+        .venn-1 { background: var(--accent-green); left: 10%; z-index: 1; }
+        .venn-2 { background: var(--accent-yellow); right: 10%; width: 350px; height: 350px; z-index: 0; border-style: dashed;}
+
+        /* Classi di Animazione per lo Scorrimento */
+        .reveal {
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+        }
+        .reveal-up { transform: translateY(80px); }
+        .reveal-up.active { transform: translateY(0); }
+        
+        .reveal-left { transform: translateX(-80px); }
+        .reveal-left.active { transform: translateX(0); }
+        
+        .reveal-right { transform: translateX(80px); }
+        .reveal-right.active { transform: translateX(0); }
+        
+        .reveal-scale { transform: scale(0.8); }
+        .reveal-scale.active { transform: scale(1); }
+
+        /* Ritardi per elementi multipli */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.5s; }
+
+        /* Tipografia specifica per contenuti */
+        .section-title {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 15px;
+            background: var(--accent-pink);
+            bottom: 5px;
+            left: 0;
+            z-index: -1;
+            transform: rotate(-1deg);
+        }
+
+        ul.brutal-list {
+            list-style: none;
+        }
+        ul.brutal-list li {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: white;
+            border: var(--border-thick);
+            border-radius: var(--border-radius);
+            box-shadow: 4px 4px 0px var(--border-color);
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        ul.brutal-list li i {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            background: var(--accent-yellow);
+            border: 2px solid var(--border-color);
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+
+        /* Post-it */
+        .post-it {
+            background-color: var(--accent-yellow);
+            border: var(--border-thick);
+            padding: 3rem;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.2);
+            transform: rotate(2deg);
+            font-size: 1.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: center;
+        }
+
+        /* Grid per le strategie */
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .strategy-card {
+            background: white;
+            border: var(--border-thick);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-hard);
+            transition: transform 0.2s;
+        }
+        .strategy-card:hover { transform: translateY(-10px); box-shadow: 10px 15px 0px var(--border-color); }
+        .strategy-card i { font-size: 3rem; margin-bottom: 1rem; }
+        .sc-1 { background-color: #e0f2fe; }
+        .sc-2 { background-color: #fce7f3; }
+        .sc-3 { background-color: #dcfce7; }
+
+        /* Marquee per la conclusione */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background: var(--text-main);
+            color: white;
+            padding: 2rem 0;
+            border-top: var(--border-thick);
+            border-bottom: var(--border-thick);
+            transform: rotate(-2deg) scale(1.05);
+            margin: 4rem 0;
+        }
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            animation: scroll-marquee 20s linear infinite;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+        }
+        .marquee-content span { margin: 0 2rem; }
+        @keyframes scroll-marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .hero-title { font-size: 3rem; }
+            .venn-circle { width: 180px; height: 180px; font-size: 0.9rem; }
+            .venn-2 { width: 250px; height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- 1. COPERTINA HERO -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="brutal-badge reveal reveal-up">FORMAZIONE DOCENTI CFP</div>
+            <h1 class="hero-title reveal reveal-up delay-1">Gestione del Gruppo Classe</h1>
+            <p class="hero-subtitle reveal reveal-up delay-2">
+                Strutture, dinamiche sommerse e strategie pratiche per favorire collaborazione, clima positivo e motivazione.
+            </p>
+            <div class="reveal reveal-up delay-3" style="margin-top: 4rem;">
+                <p style="font-family: 'Space Grotesk'; font-weight: bold; margin-bottom: 1rem;">SCORRI PER INIZIARE</p>
+                <div class="scroll-indicator"><i class="fa-solid fa-arrow-down"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. IL GRUPPO E L'EQUILIBRIO (1° Incontro) -->
+    <section id="equilibrio">
+        <div class="container grid-2">
+            <div class="reveal reveal-left">
+                <div class="brutal-badge" style="background: var(--accent-pink);">1° INCONTRO</div>
+                <h2 class="section-title" style="--accent-pink: var(--accent-blue);">L'Equilibrio del Sistema</h2>
+                <ul class="brutal-list">
+                    <li><i class="fa-solid fa-network-wired"></i> <div><strong>Principi di base:</strong> La classe non è una somma di individui, ma un sistema complesso interconnesso.</div></li>
+                    <li><i class="fa-solid fa-masks-theater"></i> <div><strong>I Ruoli Assunti:</strong> Dal "leader" al "capro espiatorio", le etichette che mantengono la struttura intatta.</div></li>
+                    <li><i class="fa-solid fa-scale-balanced"></i> <div><strong>Omeostasi di Gruppo:</strong> La naturale, e spesso invisibile, resistenza al cambiamento per mantenere lo <em>status quo</em>.</div></li>
+                </ul>
+            </div>
+            <div class="reveal reveal-right delay-2 brutal-box" style="background: var(--bg-color);">
+                <!-- Grafica CSS animata della bilancia (Omeostasi) -->
+                <div class="balance-graphic">
+                    <div class="balance-base"></div>
+                    <div class="balance-beam">
+                        <div class="balance-weight weight-left">Sintomo</div>
+                        <div class="balance-weight weight-right">Ruoli</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. LA POSIZIONE DELL'INSEGNANTE -->
+    <section style="background-color: white; border-top: var(--border-thick); border-bottom: var(--border-thick);">
+        <div class="container grid-2">
+            <div class="reveal reveal-scale">
+                <!-- Grafica CSS Diagramma di Venn Sistemico -->
+                <div class="venn-graphic brutal-box" style="background: var(--bg-color);">
+                    <div class="venn-circle venn-2">SISTEMA CLASSE<br><span style="font-size: 0.8rem; font-weight: normal; margin-top:10px;">(Docente + Studenti + Regole)</span></div>
+                    <div class="venn-circle venn-1">GRUPPO DEI PARI<br><span style="font-size: 0.8rem; font-weight: normal;">(Dinamiche tra Allievi)</span></div>
+                </div>
+            </div>
+            <div class="reveal reveal-right delay-1">
+                <h2 class="section-title" style="--accent-pink: var(--accent-green);">Dove si colloca l'insegnante?</h2>
+                <div class="brutal-box" style="background: var(--accent-yellow);">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Fuori dal gruppo, dentro al sistema.</h3>
+                    <p style="font-size: 1.2rem;">L'errore più comune? Cercare di far parte del "gruppo dei pari" per ottenere simpatia. L'insegnante efficace occupa una posizione <strong>meta-comunicativa</strong>: non è un pari, ma è il regolatore dei confini dell'intero ecosistema classe.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. COMPORTAMENTO E STRUMENTI (Scroll reveal con overlap) -->
+    <section>
+        <div class="container">
+            <div class="reveal reveal-up text-center" style="text-align: center; margin-bottom: 4rem;">
+                <h2 class="section-title" style="--accent-pink: var(--accent-orange);">Strumenti di Lettura Diagnostica</h2>
+            </div>
+            
+            <div class="grid-2">
+                <div class="brutal-box reveal reveal-up delay-1" style="background: var(--text-main); color: white;">
+                    <h3 style="color: var(--accent-pink); margin-bottom: 1rem;"><i class="fa-solid fa-microscope"></i> La Funzione del Sintomo</h3>
+                    <p style="font-size: 1.1rem; color: #ccc;">Nel paradigma sistemico, il comportamento problematico (il "sintomo") non è mai casuale. Quale funzione svolge per mantenere l'omeostasi del gruppo in quel momento?</p>
+                </div>
+
+                <div class="brutal-box reveal reveal-up delay-2">
+                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem;"><i class="fa-solid fa-sitemap"></i> Mappe di Minuchin</h3>
+                    <p style="font-size: 1.1rem;">Utilizzare la geometria relazionale per mappare invischiamenti, disimpegni, confini rigidi o diffusi all'interno delle gerarchie della classe.</p>
+                </div>
+
+                <div class="brutal-box reveal reveal-up delay-3" style="grid-column: 1 / -1; display: flex; align-items: center; gap: 2rem; background: var(--accent-orange);">
+                    <div style="flex: 1;">
+                        <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-project-diagram"></i> Il Sociogramma di Classe</h3>
+                        <p style="font-size: 1.2rem; font-weight: 500;">La radiografia delle reti sociali. Mappare le frecce direzionali di avvicinamento e rifiuto per svelare i leader occulti e i soggetti a rischio isolamento.</p>
+                    </div>
+                    <!-- Placeholder stilizzato -->
+                    <div style="background: white; padding: 1rem; border: var(--border-thick); transform: rotate(3deg); font-family: monospace; font-weight: bold; font-size: 1.5rem;">
+                        [ Rete Sociometrica ]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. VERSO IL CAMBIAMENTO (2° Incontro) -->
+    <section style="background-color: #f1f5f9; border-top: var(--border-thick);">
+        <div class="container grid-2">
+            <div class="reveal reveal-left">
+                <div class="brutal-badge" style="background: var(--accent-green);">2° INCONTRO</div>
+                <h2 class="section-title">Innescare il Cambiamento</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">Per modificare un comportamento disfunzionale, non bisogna attaccare il sintomo, ma <strong>modificare i ruoli</strong> che lo sostengono.</p>
+                
+                <div class="brutal-box" style="background: white; border-left: 8px solid var(--accent-pink);">
+                    <h4 style="margin-bottom: 0.5rem;">L'importanza della Destrutturazione</h4>
+                    <p>Scardinare le etichette storiche ("il bravo", "il ribelle", "il passivo") costringe il sistema-classe a trovare un nuovo, e si spera più sano, equilibrio.</p>
+                </div>
+            </div>
+            
+            <div class="reveal reveal-right delay-2" style="display: flex; justify-content: center;">
+                <div class="post-it">
+                    <i class="fa-solid fa-thumbtack" style="font-size: 2rem; margin-bottom: 1rem; color: var(--text-main);"></i>
+                    <p><strong>Esercizio Pratico:</strong><br><br>"Scrivo delle cose positive sulla mia classe".<br><br><span style="font-size: 1rem; font-weight: normal;">(Attività rompighiaccio per ribaltare la narrazione da deficit a risorsa)</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. STRATEGIE PRATICHE -->
+    <section>
+        <div class="container">
+            <div class="reveal reveal-up text-center">
+                <h2 class="section-title" style="--accent-pink: var(--accent-yellow);">Strategie di Intervento</h2>
+            </div>
+            
+            <div class="strategy-grid">
+                <div class="strategy-card sc-1 reveal reveal-up delay-1">
+                    <i class="fa-solid fa-arrows-rotate" style="color: var(--accent-blue);"></i>
+                    <h3>Scambio di Ruoli</h3>
+                    <p style="margin-top: 1rem;">Forzare assegnazioni di compiti inusuali per rompere i pattern cristallizzati e generare empatia circolare.</p>
+                </div>
+                <div class="strategy-card sc-2 reveal reveal-up delay-2">
+                    <i class="fa-solid fa-star" style="color: var(--accent-pink);"></i>
+                    <h3>Rinforzo Mirato</h3>
+                    <p style="margin-top: 1rem;">Validare e valorizzare attivamente le micro-risorse degli alunni relegati in ruoli marginali o di "devianza".</p>
+                </div>
+                <div class="strategy-card sc-3 reveal reveal-up delay-3">
+                    <i class="fa-solid fa-eye-slash" style="color: var(--accent-green);"></i>
+                    <h3>Spostare il Focus</h3>
+                    <p style="margin-top: 1rem;">Decentrare l'attenzione dagli allievi "perfetti" per riequilibrare la distribuzione emotiva sul resto del gruppo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7/8. DALLA TEORIA ALLA PRATICA (Marquee e Conclusione) -->
+    <div class="marquee-container reveal reveal-scale">
+        <div class="marquee-content">
+            <span>ANALISI CASI CLINICI</span> ✦ <span>STESURA MAPPE</span> ✦ <span>LETTURA FUNZIONALE</span> ✦ <span>BRAINSTORMING</span> ✦ <span>ANALISI CASI CLINICI</span> ✦ <span>STESURA MAPPE</span> ✦ <span>LETTURA FUNZIONALE</span> ✦ <span>BRAINSTORMING</span> ✦ 
+        </div>
+    </div>
+
+    <section id="conclusione" style="min-height: 60vh;">
+        <div class="container text-center">
+            <div class="brutal-badge" style="background: white;">3° INCONTRO & CHIUSURA</div>
+            <h2 class="section-title reveal reveal-up">Dalla Teoria all'Aula</h2>
+            
+            <div class="brutal-box reveal reveal-up delay-1" style="max-width: 800px; margin: 2rem auto; text-align: left; background: var(--accent-yellow);">
+                <ul class="brutal-list" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+                    <li style="background: transparent; box-shadow: none; border-bottom: 2px dashed var(--border-color); border-radius: 0;"><i class="fa-solid fa-comments"></i> <div>Discussione attiva e supervisione su casi portati dai docenti.</div></li>
+                    <li style="background: transparent; box-shadow: none; border-bottom: 2px dashed var(--border-color); border-radius: 0;"><i class="fa-solid fa-box-archive"></i> <div>Integrazione degli strumenti diagnostici nel quotidiano scolastico.</div></li>
+                    <li style="background: transparent; box-shadow: none; border-bottom: none;"><i class="fa-solid fa-puzzle-piece"></i> <div>Chiusura: trasformare la reazione emotiva in gestione strategica.</div></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 2rem; border-top: var(--border-thick); text-align: center; font-family: 'Space Grotesk'; font-weight: bold;">
+        <p>Formazione Docenti CFP - Modulo Psicopedagogico</p>
+    </footer>
+
+    <!-- Script per le animazioni allo scroll (Intersection Observer) e Progress Bar -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Progress Bar
+            const progressBar = document.getElementById('progress-bar');
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                progressBar.style.width = scrolled + "%";
+            });
+
+            // 2. Scroll Reveal Animations (Intersection Observer)
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Innesca l'animazione quando il 15% dell'elemento è visibile
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Opzionale: smettere di osservare dopo la prima animazione (rimuovi il commento sotto se vuoi che l'animazione avvenga una sola volta)
+                        // observer.unobserve(entry.target);
+                    } else {
+                        // Rimuovi la classe se vuoi che l'animazione si ripeta scorrendo su e giù
+                        entry.target.classList.remove('active');
+                    }
+                });
+            }, observerOptions);
+
+            // Seleziona tutti gli elementi con la classe .reveal e mettili in osservazione
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
