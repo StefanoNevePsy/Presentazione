@@ -3,31 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestione del Gruppo Classe | Formazione CFP</title>
-    <!-- Google Fonts: Space Grotesk per il look neobrutalista e Inter per la leggibilità -->
+    <title>Formazione Docenti CFP | Dinamiche di Classe</title>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* Variabili Neobrutaliste */
+        /* =========================================
+           1. VARIABILI NEOBRUTALISTE & SETUP
+           ========================================= */
         :root {
-            --bg-color: #fdfbf7; /* Bianco sporco caldo */
-            --text-main: #111111;
-            --border-color: #000000;
-            --accent-yellow: #ffde59;
-            --accent-pink: #ff90e8;
-            --accent-blue: #38bdf8;
-            --accent-green: #4ade80;
-            --accent-orange: #fb923c;
-            --shadow-hard: 6px 6px 0px var(--border-color);
-            --shadow-hard-hover: 10px 10px 0px var(--border-color);
+            --bg-main: #f4f0ea;
+            --text-dark: #111111;
+            --border-color: #111111;
+            
+            --c-yellow: #ffde59;
+            --c-pink: #ff90e8;
+            --c-cyan: #38bdf8;
+            --c-green: #4ade80;
+            --c-orange: #fb923c;
+            --c-purple: #c084fc;
+            --c-white: #ffffff;
+
             --border-thick: 4px solid var(--border-color);
             --border-radius: 12px;
+            --shadow-hard: 8px 8px 0px var(--border-color);
+            --shadow-hard-hover: 12px 12px 0px var(--border-color);
+            --shadow-hard-sm: 4px 4px 0px var(--border-color);
         }
 
-        /* Reset e Base */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -35,8 +43,8 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            background-color: var(--bg-main);
+            color: var(--text-dark);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             line-height: 1.6;
@@ -44,30 +52,38 @@
 
         h1, h2, h3, h4 {
             font-family: 'Space Grotesk', sans-serif;
-            color: var(--text-main);
             text-transform: uppercase;
+            line-height: 1.1;
         }
 
-        /* Barra di progresso in alto (Stile Apple) */
-        #progress-bar {
+        #scroll-progress {
             position: fixed;
             top: 0;
             left: 0;
-            height: 6px;
-            background: var(--text-main);
+            height: 8px;
+            background: var(--text-dark);
             width: 0%;
-            z-index: 1000;
+            z-index: 9999;
             transition: width 0.1s ease-out;
         }
 
-        /* Elementi Neobrutalisti Comuni */
+        /* =========================================
+           2. COMPONENTI UI COMUNI
+           ========================================= */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
         .brutal-box {
-            background-color: white;
+            background-color: var(--c-white);
             border: var(--border-thick);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-hard);
             padding: 2.5rem;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
         }
 
         .brutal-box:hover {
@@ -77,79 +93,149 @@
 
         .brutal-badge {
             display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: var(--accent-yellow);
-            border: 3px solid var(--border-color);
-            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            border: var(--border-thick);
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
-            box-shadow: 4px 4px 0px var(--border-color);
-            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-hard-sm);
             transform: rotate(-2deg);
+            background: var(--c-yellow);
+            margin-bottom: 1.5rem;
         }
 
-        /* Layout a Sezioni (Scrollytelling) */
-        section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4rem 2rem;
-            position: relative;
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
         }
 
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            background: var(--c-white);
+            display: inline-block;
+            padding: 1rem 2rem;
+            border: var(--border-thick);
+            box-shadow: var(--shadow-hard);
+            transform: rotate(1deg);
         }
 
         .grid-2 {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
             align-items: center;
-        }
-
-        /* Sezione 1: Hero Copertina */
-        .hero-section {
-            background-color: var(--accent-yellow);
-            background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
-            background-size: 30px 30px;
-            border-bottom: var(--border-thick);
-            text-align: center;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 6vw, 6rem);
-            line-height: 1.1;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: var(--shadow-hard-sm);
             margin-bottom: 1.5rem;
-            text-shadow: 4px 4px 0px white;
+            background: var(--c-white);
+        }
+
+        ul.brutal-list {
+            list-style: none;
+        }
+        ul.brutal-list li {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: var(--c-white);
+            border: var(--border-thick);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-hard-sm);
+            position: relative;
+            padding-left: 4rem;
+        }
+        ul.brutal-list li i {
+            position: absolute;
+            left: 1.2rem;
+            top: 1.8rem;
+            font-size: 1.5rem;
+        }
+
+        /* =========================================
+           3. CLASSI PER SCROLLYTELLING ANIMATIONS
+           ========================================= */
+        .reveal {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .reveal-up { transform: translateY(80px); }
+        .reveal-up.active { transform: translateY(0); }
+
+        .reveal-left { transform: translateX(-80px); }
+        .reveal-left.active { transform: translateX(0); }
+
+        .reveal-right { transform: translateX(80px); }
+        .reveal-right.active { transform: translateX(0); }
+
+        .reveal-scale { transform: scale(0.9); }
+        .reveal-scale.active { transform: scale(1); }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.5s; }
+        .delay-4 { transition-delay: 0.7s; }
+
+        /* =========================================
+           4. SEZIONI SPECIFICHE
+           ========================================= */
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: var(--c-yellow);
+            background-image: radial-gradient(var(--border-color) 2px, transparent 2px);
+            background-size: 40px 40px;
+            border-bottom: var(--border-thick);
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 6.5rem);
+            text-shadow: 6px 6px 0px var(--c-white);
+            margin-bottom: 2rem;
         }
 
         .hero-subtitle {
             font-size: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto 3rem auto;
-            background: white;
-            padding: 1rem 2rem;
+            font-weight: 500;
+            background: var(--c-white);
+            padding: 1.5rem;
             border: var(--border-thick);
             box-shadow: var(--shadow-hard);
             border-radius: var(--border-radius);
-            font-weight: 500;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .scroll-indicator {
+        .scroll-down {
+            margin-top: 4rem;
             font-size: 3rem;
             animation: bounce 2s infinite;
-            display: inline-block;
-            background: white;
-            border: var(--border-thick);
-            border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            line-height: 70px;
-            box-shadow: var(--shadow-hard);
         }
 
         @keyframes bounce {
@@ -158,398 +244,610 @@
             60% { transform: translateY(-10px); }
         }
 
-        /* Grafiche CSS Integrate (Al posto delle immagini) */
-        
-        /* Omeostasi - Bilancia Astratta */
-        .balance-graphic {
-            position: relative;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .balance-beam {
-            width: 80%;
-            height: 20px;
-            background: var(--text-main);
-            position: absolute;
-            transform-origin: center;
-            animation: seesaw 6s ease-in-out infinite;
-        }
-        .balance-base {
-            width: 0;
-            height: 0;
-            border-left: 50px solid transparent;
-            border-right: 50px solid transparent;
-            border-bottom: 100px solid var(--text-main);
-            position: absolute;
-            bottom: 50px;
-        }
-        .balance-weight {
-            width: 80px;
-            height: 80px;
-            background: var(--accent-pink);
-            border: var(--border-thick);
-            border-radius: 50%;
-            position: absolute;
-            top: -90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        .weight-left { left: 0; background: var(--accent-blue); }
-        .weight-right { right: 0; background: var(--accent-pink); }
-        @keyframes seesaw {
-            0% { transform: rotate(5deg); }
-            50% { transform: rotate(-5deg); }
-            100% { transform: rotate(5deg); }
-        }
-
-        /* Diagramma Insegnante/Sistema */
-        .venn-graphic {
-            position: relative;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .venn-circle {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            border: var(--border-thick);
-            position: absolute;
-            mix-blend-mode: multiply;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-align: center;
-            padding: 1rem;
-        }
-        .venn-1 { background: var(--accent-green); left: 10%; z-index: 1; }
-        .venn-2 { background: var(--accent-yellow); right: 10%; width: 350px; height: 350px; z-index: 0; border-style: dashed;}
-
-        /* Classi di Animazione per lo Scorrimento */
-        .reveal {
-            opacity: 0;
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-        }
-        .reveal-up { transform: translateY(80px); }
-        .reveal-up.active { transform: translateY(0); }
-        
-        .reveal-left { transform: translateX(-80px); }
-        .reveal-left.active { transform: translateX(0); }
-        
-        .reveal-right { transform: translateX(80px); }
-        .reveal-right.active { transform: translateX(0); }
-        
-        .reveal-scale { transform: scale(0.8); }
-        .reveal-scale.active { transform: scale(1); }
-
-        /* Ritardi per elementi multipli */
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.3s; }
-        .delay-3 { transition-delay: 0.5s; }
-
-        /* Tipografia specifica per contenuti */
-        .section-title {
-            font-size: 3.5rem;
-            margin-bottom: 2rem;
-            position: relative;
-            display: inline-block;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 15px;
-            background: var(--accent-pink);
-            bottom: 5px;
-            left: 0;
-            z-index: -1;
-            transform: rotate(-1deg);
-        }
-
-        ul.brutal-list {
-            list-style: none;
-        }
-        ul.brutal-list li {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            padding: 1.5rem;
-            background: white;
-            border: var(--border-thick);
-            border-radius: var(--border-radius);
-            box-shadow: 4px 4px 0px var(--border-color);
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-        }
-        ul.brutal-list li i {
-            font-size: 1.5rem;
-            color: var(--text-main);
-            background: var(--accent-yellow);
-            border: 2px solid var(--border-color);
-            padding: 0.5rem;
-            border-radius: 50%;
-        }
-
-        /* Post-it */
-        .post-it {
-            background-color: var(--accent-yellow);
-            border: var(--border-thick);
-            padding: 3rem;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.2);
-            transform: rotate(2deg);
-            font-size: 1.5rem;
-            font-family: 'Space Grotesk', sans-serif;
-            text-align: center;
-        }
-
-        /* Grid per le strategie */
-        .strategy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .strategy-card {
-            background: white;
-            border: var(--border-thick);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            text-align: center;
-            box-shadow: var(--shadow-hard);
-            transition: transform 0.2s;
-        }
-        .strategy-card:hover { transform: translateY(-10px); box-shadow: 10px 15px 0px var(--border-color); }
-        .strategy-card i { font-size: 3rem; margin-bottom: 1rem; }
-        .sc-1 { background-color: #e0f2fe; }
-        .sc-2 { background-color: #fce7f3; }
-        .sc-3 { background-color: #dcfce7; }
-
-        /* Marquee per la conclusione */
-        .marquee-container {
-            width: 100%;
-            overflow: hidden;
-            background: var(--text-main);
-            color: white;
-            padding: 2rem 0;
+        .theatre-section {
+            background-color: var(--text-dark);
+            color: var(--c-white);
+            padding: 8rem 2rem;
             border-top: var(--border-thick);
             border-bottom: var(--border-thick);
-            transform: rotate(-2deg) scale(1.05);
-            margin: 4rem 0;
+        }
+
+        .theatre-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: stretch;
+        }
+
+        @media (max-width: 900px) {
+            .theatre-grid { grid-template-columns: 1fr; }
+        }
+
+        .theatre-card {
+            background: var(--bg-main);
+            color: var(--text-dark);
+            border: var(--border-thick);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            box-shadow: 12px 12px 0px var(--c-cyan);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .theatre-card.active-card { box-shadow: 12px 12px 0px var(--c-green); }
+
+        .theatre-img-wrapper {
+            width: 100%;
+            height: 350px;
+            border: var(--border-thick);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            background-color: var(--c-white);
+        }
+
+        .theatre-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%);
+            transition: filter 0.3s;
+        }
+
+        .theatre-card:hover img { filter: grayscale(0%); }
+
+        .abc-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            position: relative;
+        }
+        
+        .abc-flow::before {
+            content: '';
+            position: absolute;
+            left: 2.5rem;
+            top: 2rem;
+            bottom: 2rem;
+            width: 6px;
+            background: var(--text-dark);
+            z-index: 0;
+        }
+
+        .abc-step {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            z-index: 1;
+        }
+
+        .abc-letter {
+            width: 5rem;
+            height: 5rem;
+            flex-shrink: 0;
+            background: var(--c-white);
+            border: var(--border-thick);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            box-shadow: var(--shadow-hard-sm);
+        }
+
+        .abc-content {
+            background: var(--c-white);
+            border: var(--border-thick);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-hard-sm);
+            flex-grow: 1;
+        }
+        
+        .bg-pink { background-color: var(--c-pink); }
+        .bg-cyan { background-color: var(--c-cyan); }
+        .bg-green { background-color: var(--c-green); }
+        .bg-orange { background-color: var(--c-orange); }
+        .bg-yellow { background-color: var(--c-yellow); }
+
+        .marquee {
+            width: 100%;
+            overflow: hidden;
+            background: var(--text-dark);
+            color: var(--c-white);
+            padding: 1.5rem 0;
+            transform: rotate(-1deg) scale(1.05);
+            border-top: var(--border-thick);
+            border-bottom: var(--border-thick);
+            position: relative;
+            z-index: 10;
         }
         .marquee-content {
             display: flex;
             white-space: nowrap;
-            animation: scroll-marquee 20s linear infinite;
+            animation: scroll-text 20s linear infinite;
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5rem;
-            text-transform: uppercase;
+            font-size: 1.8rem;
         }
         .marquee-content span { margin: 0 2rem; }
-        @keyframes scroll-marquee {
+        @keyframes scroll-text {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
 
-        @media (max-width: 768px) {
-            .grid-2 { grid-template-columns: 1fr; }
-            .hero-title { font-size: 3rem; }
-            .venn-circle { width: 180px; height: 180px; font-size: 0.9rem; }
-            .venn-2 { width: 250px; height: 250px; }
+        .highlight {
+            background: var(--text-dark);
+            color: var(--c-white);
+            padding: 0 0.3rem;
+        }
+
+        /* SVG Sociogramma */
+        .sociogram-container {
+            width: 100%;
+            background: var(--bg-main);
+            border: var(--border-thick);
+            border-radius: var(--border-radius);
+            box-shadow: inset 4px 4px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .sociogram-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .sociogram-node {
+            transition: transform 0.2s ease;
+        }
+        .sociogram-node:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+            padding: 1rem;
+            background: var(--c-white);
+            border: var(--border-thick);
+            border-radius: var(--border-radius);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .legend-dot {
+            width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--text-dark);
         }
     </style>
 </head>
 <body>
 
-    <!-- Progress Bar -->
-    <div id="progress-bar"></div>
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress"></div>
 
-    <!-- 1. COPERTINA HERO -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="brutal-badge reveal reveal-up">FORMAZIONE DOCENTI CFP</div>
-            <h1 class="hero-title reveal reveal-up delay-1">Gestione del Gruppo Classe</h1>
-            <p class="hero-subtitle reveal reveal-up delay-2">
-                Strutture, dinamiche sommerse e strategie pratiche per favorire collaborazione, clima positivo e motivazione.
-            </p>
-            <div class="reveal reveal-up delay-3" style="margin-top: 4rem;">
-                <p style="font-family: 'Space Grotesk'; font-weight: bold; margin-bottom: 1rem;">SCORRI PER INIZIARE</p>
-                <div class="scroll-indicator"><i class="fa-solid fa-arrow-down"></i></div>
+    <!-- ==========================================
+         HERO SECTION
+         ========================================== -->
+    <section class="hero">
+        <div class="reveal reveal-up">
+            <div class="brutal-badge" style="background: var(--c-white);">Formazione Docenti CFP</div>
+            <h1>Dinamiche di Classe,<br>Clima e Collaborazione</h1>
+            <div class="hero-subtitle delay-1">
+                <strong>Il nostro obiettivo:</strong> Acquisire una chiave di lettura psicodinamica per comprendere le dinamiche sotterranee, migliorare il clima relazionale e favorire l'appartenenza dei nostri allievi.<br><br>
+                <span style="font-family: 'Space Grotesk';">DURATA DEL PERCORSO: 3 INCONTRI</span>
+            </div>
+            <div class="scroll-down delay-2">
+                <i class="fa-solid fa-arrow-down"></i>
             </div>
         </div>
     </section>
 
-    <!-- 2. IL GRUPPO E L'EQUILIBRIO (1° Incontro) -->
-    <section id="equilibrio">
-        <div class="container grid-2">
-            <div class="reveal reveal-left">
-                <div class="brutal-badge" style="background: var(--accent-pink);">1° INCONTRO</div>
-                <h2 class="section-title" style="--accent-pink: var(--accent-blue);">L'Equilibrio del Sistema</h2>
-                <ul class="brutal-list">
-                    <li><i class="fa-solid fa-network-wired"></i> <div><strong>Principi di base:</strong> La classe non è una somma di individui, ma un sistema complesso interconnesso.</div></li>
-                    <li><i class="fa-solid fa-masks-theater"></i> <div><strong>I Ruoli Assunti:</strong> Dal "leader" al "capro espiatorio", le etichette che mantengono la struttura intatta.</div></li>
-                    <li><i class="fa-solid fa-scale-balanced"></i> <div><strong>Omeostasi di Gruppo:</strong> La naturale, e spesso invisibile, resistenza al cambiamento per mantenere lo <em>status quo</em>.</div></li>
-                </ul>
-            </div>
-            <div class="reveal reveal-right delay-2 brutal-box" style="background: var(--bg-color);">
-                <!-- Grafica CSS animata della bilancia (Omeostasi) -->
-                <div class="balance-graphic">
-                    <div class="balance-base"></div>
-                    <div class="balance-beam">
-                        <div class="balance-weight weight-left">Sintomo</div>
-                        <div class="balance-weight weight-right">Ruoli</div>
-                    </div>
+    <!-- ==========================================
+         INCONTRO 1: LA NASCITA DEL GRUPPO
+         ========================================== -->
+    <section class="container" id="incontro1">
+        <div class="section-header reveal reveal-scale">
+            <div class="brutal-badge bg-pink">INCONTRO 1</div>
+            <h2 class="section-title">Leggere la Nascita<br>di un Gruppo Classe</h2>
+            <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: 500;">Costruiamo una mappa di lettura dinamica per interpretare l'evoluzione e le dinamiche emotive inconsce.</p>
+        </div>
+
+        <!-- 1. Il Gruppo come Sistema -->
+        <div class="brutal-box reveal reveal-up bg-cyan" style="margin-bottom: 4rem;">
+            <h3>1. Il Gruppo come Sistema</h3>
+            <div class="grid-2" style="margin-top: 2rem;">
+                <div class="brutal-box">
+                    <h4 style="margin-bottom: 1rem;"><i class="fa-solid fa-network-wired"></i> Il Non-Somma & Regole</h4>
+                    <p>La classe non è mai la semplice somma degli individui. È un sistema vivo con regole, ruoli e dinamiche proprie. Si organizza intorno a bisogni emotivi funzionando con regole spesso implicite e sconosciute agli studenti stessi.</p>
+                </div>
+                <div class="brutal-box">
+                    <h4 style="margin-bottom: 1rem;"><i class="fa-solid fa-brain"></i> Funzioni della Cultura <br><span style="font-size: 1rem; text-transform: none;">(René Kaës)</span></h4>
+                    <ul style="list-style-type: square; padding-left: 1.5rem;">
+                        <li>Mantenere una base indifferenziata comune (appartenenza).</li>
+                        <li>Determinare una base di difese comuni.</li>
+                        <li>Garantire la differenza tra generazioni.</li>
+                        <li>Offrire significati e rappresentazioni comuni.</li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- 3. LA POSIZIONE DELL'INSEGNANTE -->
-    <section style="background-color: white; border-top: var(--border-thick); border-bottom: var(--border-thick);">
-        <div class="container grid-2">
-            <div class="reveal reveal-scale">
-                <!-- Grafica CSS Diagramma di Venn Sistemico -->
-                <div class="venn-graphic brutal-box" style="background: var(--bg-color);">
-                    <div class="venn-circle venn-2">SISTEMA CLASSE<br><span style="font-size: 0.8rem; font-weight: normal; margin-top:10px;">(Docente + Studenti + Regole)</span></div>
-                    <div class="venn-circle venn-1">GRUPPO DEI PARI<br><span style="font-size: 0.8rem; font-weight: normal;">(Dinamiche tra Allievi)</span></div>
-                </div>
+        <!-- 2. Fasi Evolutive (Tuckman) -->
+        <h3 class="reveal reveal-left" style="font-size: 2rem; margin-bottom: 2rem;">2. Le Fasi Evolutive del Gruppo <span style="font-size: 1.2rem; text-transform:none;">(Bruce Tuckman)</span></h3>
+        <p class="reveal reveal-left delay-1" style="margin-bottom: 2rem; font-weight: 600;">Premessa: Le fasi sono sequenziali ma nella realtà scolastica si riattivano ciclicamente (es. dopo sospensioni o cambi docenti).</p>
+        
+        <div class="grid-2" style="margin-bottom: 4rem;">
+            <div class="brutal-box reveal reveal-up">
+                <div class="brutal-badge bg-yellow">Fase 1: FORMING</div>
+                <p><strong>Dipendenza e Orientamento.</strong> Ansia sociale alta, ricerca di regole implicite. <br>
+                <em>Bisogno:</em> Sicurezza.<br>
+                <em>Il Nostro Ruolo:</em> Fornire un assetto normativo e contenitivo. Se siamo ambigui, acceleriamo lo Storming.</p>
             </div>
-            <div class="reveal reveal-right delay-1">
-                <h2 class="section-title" style="--accent-pink: var(--accent-green);">Dove si colloca l'insegnante?</h2>
-                <div class="brutal-box" style="background: var(--accent-yellow);">
-                    <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Fuori dal gruppo, dentro al sistema.</h3>
-                    <p style="font-size: 1.2rem;">L'errore più comune? Cercare di far parte del "gruppo dei pari" per ottenere simpatia. L'insegnante efficace occupa una posizione <strong>meta-comunicativa</strong>: non è un pari, ma è il regolatore dei confini dell'intero ecosistema classe.</p>
-                </div>
+            <div class="brutal-box reveal reveal-up delay-1">
+                <div class="brutal-badge bg-orange">Fase 2: STORMING</div>
+                <p><strong>Conflitto e Lotta per lo Status.</strong> Test dei limiti, sfidare l'autorità, emergere dei leader.<br>
+                <em>Dinamica:</em> La sfida non è personale, è ricerca di potere. Se reagiamo <em>solo</em> disciplinarmente, diventiamo "l'avversario simbolico".</p>
+            </div>
+            <div class="brutal-box reveal reveal-up">
+                <div class="brutal-badge bg-green">Fase 3: NORMING</div>
+                <p><strong>Stabilizzazione.</strong> Regole condivise esplicite e implicite, coesione, ruoli definiti. Il leader è riconosciuto e il gruppo si stabilizza.</p>
+            </div>
+            <div class="brutal-box reveal reveal-up delay-1">
+                <div class="brutal-badge bg-cyan">Fase 4: PERFORMING</div>
+                <p><strong>Funzionamento.</strong> Collaborazione, identità di gruppo positiva, orientamento all'obiettivo. Si osserva l'autoregolazione del gruppo.</p>
             </div>
         </div>
-    </section>
 
-    <!-- 4. COMPORTAMENTO E STRUMENTI (Scroll reveal con overlap) -->
-    <section>
-        <div class="container">
-            <div class="reveal reveal-up text-center" style="text-align: center; margin-bottom: 4rem;">
-                <h2 class="section-title" style="--accent-pink: var(--accent-orange);">Strumenti di Lettura Diagnostica</h2>
+        <!-- 3. Integrazione Profonda (Bion) -->
+        <h3 class="reveal reveal-left" style="font-size: 2rem; margin-bottom: 2rem;">3. L'Integrazione Profonda <span style="font-size: 1.2rem; text-transform:none;">(Wilfred Bion)</span></h3>
+        <p class="reveal reveal-left delay-1" style="margin-bottom: 2rem; max-width: 800px;">
+            <span class="highlight">Sintesi essenziale:</span> Tuckman ci descrive il processo visibile; Bion ci descrive il <strong>clima emotivo invisibile</strong> (es. <em>Storming</em> visibile + <em>Attacco-Fuga</em> emotivo = Leader oppositivo che catalizza aggressività contro di noi).
+        </p>
+
+        <div class="grid-3">
+            <div class="brutal-box reveal reveal-up">
+                <div class="icon-circle bg-yellow"><i class="fa-solid fa-baby"></i></div>
+                <h4>Dipendenza</h4>
+                <p style="margin-top: 1rem; font-size: 0.95rem;">Il gruppo cerca un leader forte che decida e protegga. Perdita di individualità.<br><br><em>In classe:</em> "Prof, cosa dobbiamo fare?", attesa passiva, totale scarico di responsabilità su di noi.</p>
             </div>
-            
+            <div class="brutal-box reveal reveal-up delay-1">
+                <div class="icon-circle bg-pink"><i class="fa-solid fa-person-running"></i></div>
+                <h4>Attacco-Fuga</h4>
+                <p style="margin-top: 1rem; font-size: 0.95rem;">Il gruppo percepisce un nemico e si coalizza per attaccare o fuggire.<br><br><em>In classe:</em> Coalizione contro il docente, bullismo verso un capro espiatorio, derisione di una materia.</p>
+            </div>
+            <div class="brutal-box reveal reveal-up delay-2">
+                <div class="icon-circle bg-cyan"><i class="fa-solid fa-people-arrows"></i></div>
+                <h4>Accoppiamento</h4>
+                <p style="margin-top: 1rem; font-size: 0.95rem;">Il gruppo investe speranza in una “coppia salvifica” (due studenti o un evento esterno, es. l'intervallo). È una potente difesa contro la frustrazione presente.</p>
+            </div>
+        </div>
+
+        <!-- 4. Sottogruppi ed Esercizio -->
+        <div class="brutal-box reveal reveal-scale bg-yellow" style="margin-top: 4rem; border-width: 6px;">
             <div class="grid-2">
-                <div class="brutal-box reveal reveal-up delay-1" style="background: var(--text-main); color: white;">
-                    <h3 style="color: var(--accent-pink); margin-bottom: 1rem;"><i class="fa-solid fa-microscope"></i> La Funzione del Sintomo</h3>
-                    <p style="font-size: 1.1rem; color: #ccc;">Nel paradigma sistemico, il comportamento problematico (il "sintomo") non è mai casuale. Quale funzione svolge per mantenere l'omeostasi del gruppo in quel momento?</p>
-                </div>
-
-                <div class="brutal-box reveal reveal-up delay-2">
-                    <h3 style="color: var(--accent-blue); margin-bottom: 1rem;"><i class="fa-solid fa-sitemap"></i> Mappe di Minuchin</h3>
-                    <p style="font-size: 1.1rem;">Utilizzare la geometria relazionale per mappare invischiamenti, disimpegni, confini rigidi o diffusi all'interno delle gerarchie della classe.</p>
-                </div>
-
-                <div class="brutal-box reveal reveal-up delay-3" style="grid-column: 1 / -1; display: flex; align-items: center; gap: 2rem; background: var(--accent-orange);">
-                    <div style="flex: 1;">
-                        <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-project-diagram"></i> Il Sociogramma di Classe</h3>
-                        <p style="font-size: 1.2rem; font-weight: 500;">La radiografia delle reti sociali. Mappare le frecce direzionali di avvicinamento e rifiuto per svelare i leader occulti e i soggetti a rischio isolamento.</p>
-                    </div>
-                    <!-- Placeholder stilizzato -->
-                    <div style="background: white; padding: 1rem; border: var(--border-thick); transform: rotate(3deg); font-family: monospace; font-weight: bold; font-size: 1.5rem;">
-                        [ Rete Sociometrica ]
+                <div>
+                    <h3 style="margin-bottom: 1.5rem;">4. Sottogruppi e Sociometria</h3>
+                    <ul class="brutal-list" style="background: transparent;">
+                        <li style="background: var(--c-white);"><i class="fa-solid fa-magnet"></i> <strong>Similarità:</strong> Aggregazione per abbassare l'ansia (rendimento, stile, fragilità condivise).</li>
+                        <li style="background: var(--c-white);"><i class="fa-solid fa-crown"></i> <strong>Economia dello Status:</strong> Gerarchia informale basata su carisma, trasgressione, ironia. Chi ha status detta la nostra norma in classe.</li>
+                        <li style="background: var(--c-white);"><i class="fa-solid fa-shield-halved"></i> <strong>Funzione Difensiva:</strong> Il sottogruppo protegge da umiliazione e invisibilità.</li>
+                    </ul>
+                    
+                    <div class="legend" style="margin-top: 2rem;">
+                        <div class="legend-item"><div class="legend-dot bg-yellow"></div> Stella/Leader</div>
+                        <div class="legend-item"><div class="legend-dot bg-cyan"></div> Gregari</div>
+                        <div class="legend-item"><div class="legend-dot bg-green"></div> Sottogruppo chiuso</div>
+                        <div class="legend-item"><div class="legend-dot bg-pink"></div> Diade reciproca</div>
+                        <div class="legend-item"><div class="legend-dot bg-white"></div> Isolati/Marginali</div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. VERSO IL CAMBIAMENTO (2° Incontro) -->
-    <section style="background-color: #f1f5f9; border-top: var(--border-thick);">
-        <div class="container grid-2">
-            <div class="reveal reveal-left">
-                <div class="brutal-badge" style="background: var(--accent-green);">2° INCONTRO</div>
-                <h2 class="section-title">Innescare il Cambiamento</h2>
-                <p style="font-size: 1.3rem; margin-bottom: 2rem;">Per modificare un comportamento disfunzionale, non bisogna attaccare il sintomo, ma <strong>modificare i ruoli</strong> che lo sostengono.</p>
                 
-                <div class="brutal-box" style="background: white; border-left: 8px solid var(--accent-pink);">
-                    <h4 style="margin-bottom: 0.5rem;">L'importanza della Destrutturazione</h4>
-                    <p>Scardinare le etichette storiche ("il bravo", "il ribelle", "il passivo") costringe il sistema-classe a trovare un nuovo, e si spera più sano, equilibrio.</p>
-                </div>
-            </div>
-            
-            <div class="reveal reveal-right delay-2" style="display: flex; justify-content: center;">
-                <div class="post-it">
-                    <i class="fa-solid fa-thumbtack" style="font-size: 2rem; margin-bottom: 1rem; color: var(--text-main);"></i>
-                    <p><strong>Esercizio Pratico:</strong><br><br>"Scrivo delle cose positive sulla mia classe".<br><br><span style="font-size: 1rem; font-weight: normal;">(Attività rompighiaccio per ribaltare la narrazione da deficit a risorsa)</span></p>
+                <!-- Il Sociogramma di Moreno (Vettoriale) -->
+                <div class="brutal-box" style="background: var(--text-dark); color: var(--c-white); padding: 1.5rem;">
+                    <h3 style="color: var(--c-yellow); margin-bottom: 1rem;"><i class="fa-solid fa-project-diagram"></i> Mappatura del Campo</h3>
+                    
+                    <div class="sociogram-container">
+                        <svg class="sociogram-svg" viewBox="0 0 800 550" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Definizione Frecce -->
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="28" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#111111" />
+                                </marker>
+                                <marker id="arrowhead-curve" markerWidth="10" markerHeight="7" refX="26" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#111111" />
+                                </marker>
+                            </defs>
+                            
+                            <!-- COLLEGAMENTI (Linee e Curve) -->
+                            <g stroke="#111111" stroke-width="3" fill="none">
+                                <!-- Verso il Leader (Marco) -->
+                                <line x1="400" y1="120" x2="400" y2="280" marker-end="url(#arrowhead)"/> <!-- Sofia -->
+                                <line x1="250" y1="180" x2="400" y2="280" marker-end="url(#arrowhead)"/> <!-- Elisa -->
+                                <line x1="250" y1="380" x2="400" y2="280" marker-end="url(#arrowhead)"/> <!-- Tommaso -->
+                                <line x1="400" y1="440" x2="400" y2="280" marker-end="url(#arrowhead)"/> <!-- Anna -->
+                                <line x1="550" y1="180" x2="400" y2="280" marker-end="url(#arrowhead)"/> <!-- Matteo -->
+                                
+                                <!-- Sottogruppo chiuso (Matteo, Leo, Davide) -->
+                                <line x1="550" y1="180" x2="680" y2="280" marker-end="url(#arrowhead)"/> <!-- Matteo -> Leo -->
+                                <line x1="680" y1="280" x2="550" y2="380" marker-end="url(#arrowhead)"/> <!-- Leo -> Davide -->
+                                <line x1="550" y1="380" x2="550" y2="180" marker-end="url(#arrowhead)"/> <!-- Davide -> Matteo -->
+
+                                <!-- Diade Reciproca (Giulia, Chiara) -->
+                                <path d="M 120 220 Q 90 280 120 340" marker-end="url(#arrowhead-curve)"/> <!-- Giulia -> Chiara -->
+                                <path d="M 120 340 Q 150 280 120 220" marker-end="url(#arrowhead-curve)"/> <!-- Chiara -> Giulia -->
+
+                                <!-- Isolati (Scelte non ricambiate) -->
+                                <line x1="720" y1="120" x2="680" y2="280" marker-end="url(#arrowhead)" stroke-dasharray="6,6"/> <!-- Luca -> Leo -->
+                                <line x1="720" y1="440" x2="400" y2="440" marker-end="url(#arrowhead)" stroke-dasharray="6,6"/> <!-- Sara -> Anna -->
+                            </g>
+
+                            <!-- NODI (Studenti) -->
+                            <g font-family="Space Grotesk" font-weight="bold" font-size="14" fill="#111111" text-anchor="middle">
+                                <!-- Leader -->
+                                <g class="sociogram-node" transform="translate(400, 280)">
+                                    <circle r="32" fill="var(--c-yellow)" stroke="#111111" stroke-width="4" />
+                                    <text y="5">MARCO</text>
+                                </g>
+
+                                <!-- Gregari -->
+                                <g class="sociogram-node" transform="translate(400, 120)">
+                                    <circle r="25" fill="var(--c-cyan)" stroke="#111111" stroke-width="3" />
+                                    <text y="5">SOFIA</text>
+                                </g>
+                                <g class="sociogram-node" transform="translate(250, 180)">
+                                    <circle r="25" fill="var(--c-cyan)" stroke="#111111" stroke-width="3" />
+                                    <text y="5">ELISA</text>
+                                </g>
+                                <g class="sociogram-node" transform="translate(250, 380)">
+                                    <circle r="25" fill="var(--c-cyan)" stroke="#111111" stroke-width="3" />
+                                    <text y="5">TOMMASO</text>
+                                </g>
+                                <g class="sociogram-node" transform="translate(400, 440)">
+                                    <circle r="25" fill="var(--c-cyan)" stroke="#111111" stroke-width="3" />
+                                    <text y="5">ANNA</text>
+                                </g>
+
+                                <!-- Diade Reciproca -->
+                                <g class="sociogram-node" transform="translate(120, 220)">
+                                    <circle r="25" fill="var(--c-pink)" stroke="#111111" stroke-width="3" />
+                                    <text y="5">GIULIA</text>
+                                </g>
+                                <g class="sociogram-node" transform="translate(120, 340)">
+                                    <circle r="25" fill="var(--c-pink)" stroke="#111111" stroke-width="3" />
+                                    <text y="5">CHIARA</text>
+                                </g>
+
+                                <!-- Sottogruppo chiuso -->
+                                <g class="sociogram-node" transform="translate(550, 180)">
+                                    <circle r="25" fill="var(--c-green)" stroke="#111111" stroke-width="3" />
+                                    <text y="5">MATTEO</text>
+                                </g>
+                                <g class="sociogram-node" transform="translate(680, 280)">
+                                    <circle r="25" fill="var(--c-green)" stroke="#111111" stroke-width="3" />
+                                    <text y="5">LEO</text>
+                                </g>
+                                <g class="sociogram-node" transform="translate(550, 380)">
+                                    <circle r="25" fill="var(--c-green)" stroke="#111111" stroke-width="3" />
+                                    <text y="5">DAVIDE</text>
+                                </g>
+
+                                <!-- Isolati / Marginali -->
+                                <g class="sociogram-node" transform="translate(720, 120)">
+                                    <circle r="25" fill="var(--c-white)" stroke="#111111" stroke-width="3" stroke-dasharray="4,4" />
+                                    <text y="5">LUCA</text>
+                                </g>
+                                <g class="sociogram-node" transform="translate(720, 440)">
+                                    <circle r="25" fill="var(--c-white)" stroke="#111111" stroke-width="3" stroke-dasharray="4,4" />
+                                    <text y="5">SARA</text>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <p style="font-style: italic; color: #ccc; font-size: 0.95rem;">"Chi definisce cosa è 'figo' nella nostra aula? Chi ride per primo? Chi decide quando si smette?"</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 6. STRATEGIE PRATICHE -->
-    <section>
-        <div class="container">
-            <div class="reveal reveal-up text-center">
-                <h2 class="section-title" style="--accent-pink: var(--accent-yellow);">Strategie di Intervento</h2>
-            </div>
-            
-            <div class="strategy-grid">
-                <div class="strategy-card sc-1 reveal reveal-up delay-1">
-                    <i class="fa-solid fa-arrows-rotate" style="color: var(--accent-blue);"></i>
-                    <h3>Scambio di Ruoli</h3>
-                    <p style="margin-top: 1rem;">Forzare assegnazioni di compiti inusuali per rompere i pattern cristallizzati e generare empatia circolare.</p>
-                </div>
-                <div class="strategy-card sc-2 reveal reveal-up delay-2">
-                    <i class="fa-solid fa-star" style="color: var(--accent-pink);"></i>
-                    <h3>Rinforzo Mirato</h3>
-                    <p style="margin-top: 1rem;">Validare e valorizzare attivamente le micro-risorse degli alunni relegati in ruoli marginali o di "devianza".</p>
-                </div>
-                <div class="strategy-card sc-3 reveal reveal-up delay-3">
-                    <i class="fa-solid fa-eye-slash" style="color: var(--accent-green);"></i>
-                    <h3>Spostare il Focus</h3>
-                    <p style="margin-top: 1rem;">Decentrare l'attenzione dagli allievi "perfetti" per riequilibrare la distribuzione emotiva sul resto del gruppo.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 7/8. DALLA TEORIA ALLA PRATICA (Marquee e Conclusione) -->
-    <div class="marquee-container reveal reveal-scale">
+    <div class="marquee">
         <div class="marquee-content">
-            <span>ANALISI CASI CLINICI</span> ✦ <span>STESURA MAPPE</span> ✦ <span>LETTURA FUNZIONALE</span> ✦ <span>BRAINSTORMING</span> ✦ <span>ANALISI CASI CLINICI</span> ✦ <span>STESURA MAPPE</span> ✦ <span>LETTURA FUNZIONALE</span> ✦ <span>BRAINSTORMING</span> ✦ 
+            <span>DINAMICHE INCONSCE</span> ✦ <span>ANALISI FUNZIONALE</span> ✦ <span>GESTIONE DELLO STATUS</span> ✦ <span>DINAMICHE INCONSCE</span> ✦ <span>ANALISI FUNZIONALE</span> ✦ <span>GESTIONE DELLO STATUS</span> ✦ 
         </div>
     </div>
 
-    <section id="conclusione" style="min-height: 60vh;">
-        <div class="container text-center">
-            <div class="brutal-badge" style="background: white;">3° INCONTRO & CHIUSURA</div>
-            <h2 class="section-title reveal reveal-up">Dalla Teoria all'Aula</h2>
-            
-            <div class="brutal-box reveal reveal-up delay-1" style="max-width: 800px; margin: 2rem auto; text-align: left; background: var(--accent-yellow);">
-                <ul class="brutal-list" style="background: transparent; border: none; box-shadow: none; padding: 0;">
-                    <li style="background: transparent; box-shadow: none; border-bottom: 2px dashed var(--border-color); border-radius: 0;"><i class="fa-solid fa-comments"></i> <div>Discussione attiva e supervisione su casi portati dai docenti.</div></li>
-                    <li style="background: transparent; box-shadow: none; border-bottom: 2px dashed var(--border-color); border-radius: 0;"><i class="fa-solid fa-box-archive"></i> <div>Integrazione degli strumenti diagnostici nel quotidiano scolastico.</div></li>
-                    <li style="background: transparent; box-shadow: none; border-bottom: none;"><i class="fa-solid fa-puzzle-piece"></i> <div>Chiusura: trasformare la reazione emotiva in gestione strategica.</div></li>
+    <!-- ==========================================
+         INCONTRO 2: LEADERSHIP E CONFLITTO
+         ========================================== -->
+    <section class="container" id="incontro2">
+        <div class="section-header reveal reveal-scale">
+            <div class="brutal-badge bg-orange">INCONTRO 2</div>
+            <h2 class="section-title">Leadership e<br>Gestione del Conflitto</h2>
+            <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: 500;">Il ponte: Quale storia dà un senso a quel comportamento oppositivo?</p>
+        </div>
+
+        <div class="grid-2">
+            <!-- Colonna Sx -->
+            <div class="reveal reveal-left">
+                <h3 style="margin-bottom: 1.5rem;">1. Leadership nel Gruppo</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">La Leadership Adolescenziale non è solo carisma; è la <strong>gestione dello status</strong> all'interno dei pari.</p>
+                
+                <h3 style="margin-bottom: 1.5rem; margin-top: 3rem;">3. Vulnerabilità e Tipologie</h3>
+                <div class="brutal-box bg-pink" style="margin-bottom: 2rem;">
+                    <p><strong>Il leader negativo spesso nasconde:</strong><br>Alta sensibilità allo status, bassissima tolleranza alla frustrazione, terrore dell'umiliazione, autostima instabile, iperattivazione emotiva.</p>
+                </div>
+                <ul class="brutal-list">
+                    <li><i class="fa-solid fa-fire"></i> <strong>Impulsivo-aggressivo:</strong> Agisce, poi pensa. Difficoltà di regolazione.</li>
+                    <li><i class="fa-solid fa-masks-theater"></i> <strong>Carismatico-manipolativo:</strong> Abile socialmente, usa ironia e sarcasmo.</li>
+                    <li><i class="fa-solid fa-theater-masks"></i> <strong>Vittimista-oppositivo:</strong> Sfida la nostra autorità presentandosi come perseguitato.</li>
                 </ul>
+            </div>
+
+            <!-- Colonna Dx -->
+            <div class="reveal reveal-right">
+                <div class="brutal-box bg-cyan">
+                    <h3 style="margin-bottom: 1rem;">2. Il Leader Negativo:<br>Analisi Funzionale</h3>
+                    <p style="margin-bottom: 1.5rem;"><strong>Perché Nasce?</strong><br>Per il gruppo: offre identità, riduce l’ansia collettiva, canalizza l’aggressività, sfida la nostra autorità per ridefinire le gerarchie.</p>
+                    <p style="font-weight: bold; background: var(--c-white); padding: 1rem; border: 2px solid var(--text-dark); margin-bottom: 2rem;">
+                        "Il problema non è il leader negativo. Il problema è quando noi lo combattiamo frontalmente invece di comprenderne la funzione sistemica."
+                    </p>
+
+                    <h4>Il Modello ABC</h4>
+                    <div class="abc-flow" style="margin-top: 1rem;">
+                        <div class="abc-step">
+                            <div class="abc-letter">A</div>
+                            <div class="abc-content">
+                                <strong>Antecedente</strong><br>Situazione di frustrazione, esposizione pubblica, una nostra richiesta di prestazione.
+                            </div>
+                        </div>
+                        <div class="abc-step">
+                            <div class="abc-letter">B</div>
+                            <div class="abc-content">
+                                <strong>Comportamento</strong><br>Battuta provocatoria, sfida diretta, risata strategica.
+                            </div>
+                        </div>
+                        <div class="abc-step">
+                            <div class="abc-letter">C</div>
+                            <div class="abc-content">
+                                <strong>Conseguenza</strong><br>Risata del gruppo, aumento del suo status. <em>Il comportamento viene rinforzato.</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="brutal-box reveal reveal-up bg-green" style="margin-top: 4rem;">
+            <div class="grid-2" style="align-items: center;">
+                <div>
+                    <h3 style="margin-bottom: 1rem;">4. La Trappola (L'Errore dell'Adulto)</h3>
+                    <p style="font-size: 1.2rem;"><strong>Lo scontro frontale pubblico.</strong><br>Se cadiamo nella trappola, aumentiamo l'attivazione emotiva e, involontariamente, innalziamo il prestigio del leader oppositivo nel gruppo.</p>
+                    <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: bold;">Il Passaggio Trasformativo:<br>Non possiamo "eliminare" un leader negativo. Dobbiamo convertirne la funzione.</p>
+                </div>
+                <div class="brutal-box" style="background: var(--c-white);">
+                    <h4 style="margin-bottom: 1rem;"><i class="fa-solid fa-users-viewfinder"></i> Role Playing</h4>
+                    <p>Mettiamoci nei panni del ragazzo oppositivo. Esploriamo diverse "storie di vita" come contesto di riferimento per decidere come calibrare la nostra reazione in aula.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <footer style="padding: 2rem; border-top: var(--border-thick); text-align: center; font-family: 'Space Grotesk'; font-weight: bold;">
-        <p>Formazione Docenti CFP - Modulo Psicopedagogico</p>
+    <!-- ==========================================
+         IL PONTE: METAFORA DEL TEATRO (IMMAGINI)
+         ========================================== -->
+    <section class="theatre-section" id="ponte">
+        <div class="container" style="padding: 0;">
+            <div class="section-header reveal reveal-up">
+                <h2 class="section-title" style="color: var(--text-dark); background: var(--c-yellow);">Il Ponte: La Metafora del Teatro</h2>
+                <p style="font-size: 1.4rem; margin-top: 2rem;">Il bivio: Rimanere critici passivi o diventare attori che improvvisano per cambiare la scena.</p>
+            </div>
+
+            <div class="theatre-grid">
+                <!-- Immagine Pre -->
+                <div class="theatre-card reveal reveal-left">
+                    <div class="theatre-img-wrapper">
+                        <!-- Assicurati che l'immagine esista nella stessa cartella -->
+                        <img src="./Metafora_pre.png" alt="Insegnante come spettatore passivo">
+                    </div>
+                    <div class="brutal-badge bg-pink" style="align-self: flex-start;">Lo Spettatore</div>
+                    <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Critici e Passivi</h3>
+                    <p style="font-size: 1.1rem; flex-grow: 1;">Osserviamo le dinamiche dal pubblico. Ci arrabbiamo e ci sentiamo impotenti di fronte al "copione" sbagliato degli studenti, ma non abbiamo il potere di salire sul palco. Subiamo la rappresentazione.</p>
+                </div>
+
+                <!-- Immagine Post -->
+                <div class="theatre-card active-card reveal reveal-right delay-1">
+                    <div class="theatre-img-wrapper">
+                        <!-- Assicurati che l'immagine esista nella stessa cartella -->
+                        <img src="./Metafora_post.png" alt="Insegnante come attore protagonista">
+                    </div>
+                    <div class="brutal-badge bg-green" style="align-self: flex-start;">L'Attore Protagonista</div>
+                    <h3 style="margin-bottom: 1rem; color: var(--text-dark);">L'Improvvisazione Attiva</h3>
+                    <p style="font-size: 1.1rem; flex-grow: 1;">Siamo sul palco con loro. Riconosciamo la dinamica in corso e decidiamo di modificare il <em>nostro</em> copione. Facendo questo, influenziamo l'intero cast e cambiamo l'esito della rappresentazione.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         INCONTRO 3: L'IO INSEGNANTE E AUTOREVOLEZZA
+         ========================================== -->
+    <section class="container" id="incontro3">
+        <div class="section-header reveal reveal-scale">
+            <div class="brutal-badge bg-cyan">INCONTRO 3</div>
+            <h2 class="section-title">L'Io Insegnante e il<br>Cambiamento Relazionale</h2>
+            <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: 500;">Portiamo la consapevolezza sul nostro ruolo per costruire un'autorevolezza efficace e trasformativa.</p>
+        </div>
+
+        <div class="grid-2">
+            <div class="reveal reveal-left">
+                <div class="brutal-box bg-yellow" style="margin-bottom: 3rem;">
+                    <h3 style="margin-bottom: 1rem;">1. La Risuonanza Simmetrica</h3>
+                    <p>I comportamenti disfunzionali degli allievi risuonano in noi emotivamente, spingendoci a una reazione impulsiva (il "contro-gioco").</p>
+                    <p style="margin-top: 1rem; font-weight: bold;">Il Punto di Leva:</p>
+                    <p>Cambiare la nostra modalità relazionale (il nostro copione) è l'unico modo reale per disinnescare gli schemi disfunzionali della classe.</p>
+                </div>
+
+                <h3 style="margin-bottom: 1.5rem;">2. Il Nostro ABC Cognitivo</h3>
+                <ul class="brutal-list">
+                    <li><i class="fa-solid fa-a" style="color: var(--c-orange);"></i> <strong>Antecedente:</strong> Il comportamento disfunzionale dello studente verso di noi.</li>
+                    <li><i class="fa-solid fa-b" style="color: var(--c-pink);"></i> <strong>I Nostri Pensieri (Beliefs):</strong> "Mi sta sfidando", "Devo imporre la mia autorità".</li>
+                    <li><i class="fa-solid fa-c" style="color: var(--c-cyan);"></i> <strong>La Nostra Reazione:</strong> Rabbia, scontro frontale, sanzione pubblica.</li>
+                </ul>
+                <div class="brutal-box" style="background: var(--text-dark); color: var(--c-white); padding: 1.5rem;">
+                    <i class="fa-solid fa-arrows-spin" style="font-size: 1.5rem; color: var(--c-yellow); margin-bottom: 0.5rem;"></i>
+                    <p><strong>IL LOOP:</strong> La nostra conseguenza (C) diventa l'antecedente (A) della prossima interazione, blindando lo schema relazionale in classe.</p>
+                </div>
+            </div>
+
+            <div class="reveal reveal-right">
+                <div class="brutal-box" style="height: 100%;">
+                    <h3 style="margin-bottom: 2rem; border-bottom: var(--border-thick); padding-bottom: 1rem;">3. Costruire Autorevolezza</h3>
+                    
+                    <h4 style="color: var(--c-orange); margin-bottom: 0.5rem;">L'Interruzione del Loop</h4>
+                    <p style="margin-bottom: 1.5rem;">Passare dalla reazione impulsiva simmetrica a una risposta asimmetrica. Interpretiamo il comportamento non come un attacco personale a noi, ma come un segnale dei bisogni del gruppo.</p>
+                    
+                    <h4 style="color: var(--c-cyan); margin-bottom: 0.5rem;">Contenimento Emozionale</h4>
+                    <p style="margin-bottom: 1.5rem;">Manteniamo la lucidità e la funzione normativa anche quando la classe è in piena fase di Storming o nell'assunto di Attacco-Fuga.</p>
+
+                    <h4 style="color: var(--c-pink); margin-bottom: 0.5rem;">Il Colloquio Privato</h4>
+                    <p style="margin-bottom: 1.5rem;">Disinneschiamo l'arena pubblica: togliamo il pubblico al leader oppositivo spostando il confronto nel privato, attraverso l'ascolto e il riconoscimento.</p>
+
+                    <h4 style="color: var(--c-green); margin-bottom: 0.5rem;">Conversione della Funzione</h4>
+                    <p>Reindirizziamo attivamente la sua energia: <em>"Vedo che hai molta influenza in questa classe. Proviamo a usarla per..."</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chiusura -->
+        <div class="brutal-box reveal reveal-scale bg-orange" style="margin-top: 5rem; text-align: center; padding: 4rem 2rem;">
+            <i class="fa-solid fa-brain" style="font-size: 4rem; margin-bottom: 1.5rem; color: var(--text-dark);"></i>
+            <h2 style="font-size: 3rem; margin-bottom: 1rem;">Strumento di Chiusura</h2>
+            <p style="font-size: 1.5rem; max-width: 800px; margin: 0 auto; font-weight: 500;">
+                Analizziamo insieme degli scenari tipici per identificare i <strong>nostri</strong> pensieri automatici e imparare a ristrutturarli in una risposta efficace e autorevole.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 3rem; background: var(--text-dark); color: var(--c-white); font-family: 'Space Grotesk', sans-serif;">
+        <p>Formazione Psicopedagogica CFP - Dinamiche e Relazioni in Classe</p>
     </footer>
 
-    <!-- Script per le animazioni allo scroll (Intersection Observer) e Progress Bar -->
+    <!-- ==========================================
+         SCRIPT: SCROLLYTELLING ANIMATIONS
+         ========================================== -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Progress Bar
-            const progressBar = document.getElementById('progress-bar');
+            // 1. Progress Bar Logic
+            const progressBar = document.getElementById('scroll-progress');
             window.addEventListener('scroll', () => {
                 const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
                 const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -557,27 +855,26 @@
                 progressBar.style.width = scrolled + "%";
             });
 
-            // 2. Scroll Reveal Animations (Intersection Observer)
+            // 2. Intersection Observer per rivelare gli elementi allo scroll
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.15 // Innesca l'animazione quando il 15% dell'elemento è visibile
+                threshold: 0.15 
             };
 
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        // Opzionale: smettere di osservare dopo la prima animazione (rimuovi il commento sotto se vuoi che l'animazione avvenga una sola volta)
-                        // observer.unobserve(entry.target);
-                    } else {
-                        // Rimuovi la classe se vuoi che l'animazione si ripeta scorrendo su e giù
-                        entry.target.classList.remove('active');
+                        
+                        // FIX PER IL FLICKERING
+                        // Interrompendo l'osservazione, l'elemento non tornerà "invisibile" 
+                        // se un movimento di hover lo fa uscire temporaneamente dalla soglia.
+                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
 
-            // Seleziona tutti gli elementi con la classe .reveal e mettili in osservazione
             const revealElements = document.querySelectorAll('.reveal');
             revealElements.forEach(el => observer.observe(el));
         });
