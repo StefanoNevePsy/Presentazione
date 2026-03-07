@@ -17,10 +17,11 @@
            1. VARIABILI NEOBRUTALISTE & SETUP
            ========================================= */
         :root {
-            --bg-main: #f4f0ea;
+            --bg-main: #f4f0ea; /* Bianco sporco/crema */
             --text-dark: #111111;
             --border-color: #111111;
             
+            /* Colori Accento */
             --c-yellow: #ffde59;
             --c-pink: #ff90e8;
             --c-cyan: #38bdf8;
@@ -29,6 +30,7 @@
             --c-purple: #c084fc;
             --c-white: #ffffff;
 
+            /* Spessori e Ombre */
             --border-thick: 4px solid var(--border-color);
             --border-radius: 12px;
             --shadow-hard: 8px 8px 0px var(--border-color);
@@ -56,6 +58,7 @@
             line-height: 1.1;
         }
 
+        /* Barra di Scorrimento in Alto */
         #scroll-progress {
             position: fixed;
             top: 0;
@@ -201,6 +204,7 @@
            4. SEZIONI SPECIFICHE
            ========================================= */
         
+        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -244,6 +248,7 @@
             60% { transform: translateY(-10px); }
         }
 
+        /* Sezione Teatro (Il Ponte) */
         .theatre-section {
             background-color: var(--text-dark);
             color: var(--c-white);
@@ -283,7 +288,6 @@
             border-radius: 8px;
             overflow: hidden;
             margin-bottom: 1.5rem;
-            background-color: var(--c-white);
         }
 
         .theatre-img-wrapper img {
@@ -296,6 +300,7 @@
 
         .theatre-card:hover img { filter: grayscale(0%); }
 
+        /* Modello ABC Flow */
         .abc-flow {
             display: flex;
             flex-direction: column;
@@ -350,8 +355,8 @@
         .bg-cyan { background-color: var(--c-cyan); }
         .bg-green { background-color: var(--c-green); }
         .bg-orange { background-color: var(--c-orange); }
-        .bg-yellow { background-color: var(--c-yellow); }
 
+        /* Marquee Separator */
         .marquee {
             width: 100%;
             overflow: hidden;
@@ -382,50 +387,6 @@
             color: var(--c-white);
             padding: 0 0.3rem;
         }
-
-        /* SVG Sociogramma */
-        .sociogram-container {
-            width: 100%;
-            background: var(--bg-main);
-            border: var(--border-thick);
-            border-radius: var(--border-radius);
-            box-shadow: inset 4px 4px 10px rgba(0,0,0,0.1);
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-        }
-        
-        .sociogram-svg {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .sociogram-node {
-            transition: transform 0.2s ease;
-        }
-        .sociogram-node:hover {
-            transform: scale(1.1);
-            cursor: pointer;
-        }
-        
-        .legend {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            font-size: 0.9rem;
-            padding: 1rem;
-            background: var(--c-white);
-            border: var(--border-thick);
-            border-radius: var(--border-radius);
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .legend-dot {
-            width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--text-dark);
-        }
     </style>
 </head>
 <body>
@@ -440,11 +401,19 @@
         <div class="reveal reveal-up">
             <div class="brutal-badge" style="background: var(--c-white);">Formazione Docenti CFP</div>
             <h1>Dinamiche di Classe,<br>Clima e Collaborazione</h1>
+            
             <div class="hero-subtitle delay-1">
-                <strong>Il nostro obiettivo:</strong> Acquisire una chiave di lettura psicodinamica per comprendere le dinamiche sotterranee, migliorare il clima relazionale e favorire l'appartenenza dei nostri allievi.<br><br>
-                <span style="font-family: 'Space Grotesk';">DURATA DEL PERCORSO: 3 INCONTRI</span>
+                <strong>Obiettivo Generale:</strong> Fornire agli insegnanti una chiave di lettura psicodinamica per comprendere le dinamiche, migliorare il clima relazionale e favorire l'appartenenza.<br><br>
+                <span style="font-family: 'Space Grotesk';">DURATA: 3 INCONTRI</span>
             </div>
-            <div class="scroll-down delay-2">
+            
+            <!-- AGGIUNTA AUTORI -->
+            <div class="delay-2" style="margin-top: 2rem; font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: bold; background: var(--text-dark); color: var(--c-white); display: inline-block; padding: 1rem 2rem; border-radius: var(--border-radius); box-shadow: 6px 6px 0px var(--c-pink); transform: rotate(1deg); border: 2px solid var(--border-color);">
+                A cura di:<br>
+                <span style="color: var(--c-yellow);">D.ssa Chiara Marchi PhD</span> &amp; <span style="color: var(--c-cyan);">Dr. Stefano Neve</span>
+            </div>
+            
+            <div class="scroll-down delay-3">
                 <i class="fa-solid fa-arrow-down"></i>
             </div>
         </div>
@@ -457,7 +426,7 @@
         <div class="section-header reveal reveal-scale">
             <div class="brutal-badge bg-pink">INCONTRO 1</div>
             <h2 class="section-title">Leggere la Nascita<br>di un Gruppo Classe</h2>
-            <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: 500;">Costruiamo una mappa di lettura dinamica per interpretare l'evoluzione e le dinamiche emotive inconsce.</p>
+            <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: 500;">Obiettivo: Fornire una mappa di lettura dinamica per interpretare l'evoluzione e le dinamiche emotive inconsce.</p>
         </div>
 
         <!-- 1. Il Gruppo come Sistema -->
@@ -466,7 +435,7 @@
             <div class="grid-2" style="margin-top: 2rem;">
                 <div class="brutal-box">
                     <h4 style="margin-bottom: 1rem;"><i class="fa-solid fa-network-wired"></i> Il Non-Somma & Regole</h4>
-                    <p>La classe non è mai la semplice somma degli individui. È un sistema vivo con regole, ruoli e dinamiche proprie. Si organizza intorno a bisogni emotivi funzionando con regole spesso implicite e sconosciute agli studenti stessi.</p>
+                    <p>Il gruppo non è la semplice somma degli individui. È un sistema vivo con regole, ruoli e dinamiche proprie. Si organizza intorno a bisogni emotivi funzionando con regole spesso implicite e sconosciute ai membri stessi.</p>
                 </div>
                 <div class="brutal-box">
                     <h4 style="margin-bottom: 1rem;"><i class="fa-solid fa-brain"></i> Funzioni della Cultura <br><span style="font-size: 1rem; text-transform: none;">(René Kaës)</span></h4>
@@ -482,51 +451,52 @@
 
         <!-- 2. Fasi Evolutive (Tuckman) -->
         <h3 class="reveal reveal-left" style="font-size: 2rem; margin-bottom: 2rem;">2. Le Fasi Evolutive del Gruppo <span style="font-size: 1.2rem; text-transform:none;">(Bruce Tuckman)</span></h3>
-        <p class="reveal reveal-left delay-1" style="margin-bottom: 2rem; font-weight: 600;">Premessa: Le fasi sono sequenziali ma nella realtà scolastica si riattivano ciclicamente (es. dopo sospensioni o cambi docenti).</p>
+        <p class="reveal reveal-left delay-1" style="margin-bottom: 2rem; font-weight: 600;">Premessa: Le fasi sono sequenziali ma nella realtà scolastica si riattivano ciclicamente.</p>
         
         <div class="grid-2" style="margin-bottom: 4rem;">
             <div class="brutal-box reveal reveal-up">
                 <div class="brutal-badge bg-yellow">Fase 1: FORMING</div>
                 <p><strong>Dipendenza e Orientamento.</strong> Ansia sociale alta, ricerca di regole implicite. <br>
                 <em>Bisogno:</em> Sicurezza.<br>
-                <em>Il Nostro Ruolo:</em> Fornire un assetto normativo e contenitivo. Se siamo ambigui, acceleriamo lo Storming.</p>
+                <em>Ruolo Docente:</em> Normativa e contenitiva.</p>
             </div>
             <div class="brutal-box reveal reveal-up delay-1">
                 <div class="brutal-badge bg-orange">Fase 2: STORMING</div>
-                <p><strong>Conflitto e Lotta per lo Status.</strong> Test dei limiti, sfidare l'autorità, emergere dei leader.<br>
-                <em>Dinamica:</em> La sfida non è personale, è ricerca di potere. Se reagiamo <em>solo</em> disciplinarmente, diventiamo "l'avversario simbolico".</p>
+                <p><strong>Conflitto e Lotta per lo Status.</strong> Sfidare l'autorità, emergere dei leader.<br>
+                <em>Bisogno:</em> Status e riconoscimento.<br>
+                <em>Dinamica:</em> Non è personale, è ricerca di potere.</p>
             </div>
             <div class="brutal-box reveal reveal-up">
                 <div class="brutal-badge bg-green">Fase 3: NORMING</div>
-                <p><strong>Stabilizzazione.</strong> Regole condivise esplicite e implicite, coesione, ruoli definiti. Il leader è riconosciuto e il gruppo si stabilizza.</p>
+                <p><strong>Stabilizzazione.</strong> Regole condivise esplicite e implicite, coesione, ruoli definiti. Il leader è riconosciuto pacificamente.</p>
             </div>
             <div class="brutal-box reveal reveal-up delay-1">
                 <div class="brutal-badge bg-cyan">Fase 4: PERFORMING</div>
-                <p><strong>Funzionamento.</strong> Collaborazione, identità di gruppo positiva, orientamento all'obiettivo. Si osserva l'autoregolazione del gruppo.</p>
+                <p><strong>Funzionamento.</strong> Collaborazione, identità di gruppo positiva, orientamento all'obiettivo. Autoregolazione del gruppo.</p>
             </div>
         </div>
 
         <!-- 3. Integrazione Profonda (Bion) -->
         <h3 class="reveal reveal-left" style="font-size: 2rem; margin-bottom: 2rem;">3. L'Integrazione Profonda <span style="font-size: 1.2rem; text-transform:none;">(Wilfred Bion)</span></h3>
         <p class="reveal reveal-left delay-1" style="margin-bottom: 2rem; max-width: 800px;">
-            <span class="highlight">Sintesi essenziale:</span> Tuckman ci descrive il processo visibile; Bion ci descrive il <strong>clima emotivo invisibile</strong> (es. <em>Storming</em> visibile + <em>Attacco-Fuga</em> emotivo = Leader oppositivo che catalizza aggressività contro di noi).
+            <span class="highlight">Sintesi essenziale:</span> Tuckman descrive il processo visibile; Bion descrive il <strong>clima emotivo invisibile</strong> (es. <em>Storming</em> visibile + <em>Attacco-Fuga</em> emotivo = Leader oppositivo che catalizza aggressività).
         </p>
 
         <div class="grid-3">
             <div class="brutal-box reveal reveal-up">
                 <div class="icon-circle bg-yellow"><i class="fa-solid fa-baby"></i></div>
                 <h4>Dipendenza</h4>
-                <p style="margin-top: 1rem; font-size: 0.95rem;">Il gruppo cerca un leader forte che decida e protegga. Perdita di individualità.<br><br><em>In classe:</em> "Prof, cosa dobbiamo fare?", attesa passiva, totale scarico di responsabilità su di noi.</p>
+                <p style="margin-top: 1rem; font-size: 0.95rem;">Il gruppo cerca un leader forte che decida e protegga. Perdita di individualità.<br><br><em>In classe:</em> "Prof, cosa dobbiamo fare?", attesa passiva, scarico di responsabilità.</p>
             </div>
             <div class="brutal-box reveal reveal-up delay-1">
                 <div class="icon-circle bg-pink"><i class="fa-solid fa-person-running"></i></div>
                 <h4>Attacco-Fuga</h4>
-                <p style="margin-top: 1rem; font-size: 0.95rem;">Il gruppo percepisce un nemico e si coalizza per attaccare o fuggire.<br><br><em>In classe:</em> Coalizione contro il docente, bullismo verso un capro espiatorio, derisione di una materia.</p>
+                <p style="margin-top: 1rem; font-size: 0.95rem;">Il gruppo percepisce un nemico e si coalizza per attaccare o fuggire.<br><br><em>In classe:</em> Coalizione contro il docente, bullismo, derisione di una materia.</p>
             </div>
             <div class="brutal-box reveal reveal-up delay-2">
                 <div class="icon-circle bg-cyan"><i class="fa-solid fa-people-arrows"></i></div>
                 <h4>Accoppiamento</h4>
-                <p style="margin-top: 1rem; font-size: 0.95rem;">Il gruppo investe speranza in una “coppia salvifica” (due studenti o un evento esterno, es. l'intervallo). È una potente difesa contro la frustrazione presente.</p>
+                <p style="margin-top: 1rem; font-size: 0.95rem;">Il gruppo investe speranza in una “coppia salvifica” (due studenti o un evento esterno). È una difesa contro la frustrazione attuale.</p>
             </div>
         </div>
 
@@ -534,125 +504,17 @@
         <div class="brutal-box reveal reveal-scale bg-yellow" style="margin-top: 4rem; border-width: 6px;">
             <div class="grid-2">
                 <div>
-                    <h3 style="margin-bottom: 1.5rem;">4. Sottogruppi e Sociometria</h3>
+                    <h3 style="margin-bottom: 1.5rem;">4. La Creazione dei Sottogruppi</h3>
                     <ul class="brutal-list" style="background: transparent;">
-                        <li style="background: var(--c-white);"><i class="fa-solid fa-magnet"></i> <strong>Similarità:</strong> Aggregazione per abbassare l'ansia (rendimento, stile, fragilità condivise).</li>
-                        <li style="background: var(--c-white);"><i class="fa-solid fa-crown"></i> <strong>Economia dello Status:</strong> Gerarchia informale basata su carisma, trasgressione, ironia. Chi ha status detta la nostra norma in classe.</li>
-                        <li style="background: var(--c-white);"><i class="fa-solid fa-shield-halved"></i> <strong>Funzione Difensiva:</strong> Il sottogruppo protegge da umiliazione e invisibilità.</li>
+                        <li style="background: var(--c-white);"><i class="fa-solid fa-magnet"></i> <strong>Similarità:</strong> Aggregazione per abbassare l'ansia (rendimento, fragilità).</li>
+                        <li style="background: var(--c-white);"><i class="fa-solid fa-crown"></i> <strong>Economia dello Status:</strong> Gerarchia informale (carisma, trasgressione, ironia). Chi ha status detta la norma.</li>
+                        <li style="background: var(--c-white);"><i class="fa-solid fa-shield-halved"></i> <strong>Funzione Difensiva:</strong> Protegge da umiliazione e invisibilità.</li>
                     </ul>
-                    
-                    <div class="legend" style="margin-top: 2rem;">
-                        <div class="legend-item"><div class="legend-dot bg-yellow"></div> Stella/Leader</div>
-                        <div class="legend-item"><div class="legend-dot bg-cyan"></div> Gregari</div>
-                        <div class="legend-item"><div class="legend-dot bg-green"></div> Sottogruppo chiuso</div>
-                        <div class="legend-item"><div class="legend-dot bg-pink"></div> Diade reciproca</div>
-                        <div class="legend-item"><div class="legend-dot bg-white"></div> Isolati/Marginali</div>
-                    </div>
                 </div>
-                
-                <!-- Il Sociogramma di Moreno (Vettoriale) -->
-                <div class="brutal-box" style="background: var(--text-dark); color: var(--c-white); padding: 1.5rem;">
-                    <h3 style="color: var(--c-yellow); margin-bottom: 1rem;"><i class="fa-solid fa-project-diagram"></i> Mappatura del Campo</h3>
-                    
-                    <div class="sociogram-container">
-                        <svg class="sociogram-svg" viewBox="0 0 800 550" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Definizione Frecce -->
-                            <defs>
-                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="28" refY="3.5" orient="auto">
-                                    <polygon points="0 0, 10 3.5, 0 7" fill="#111111" />
-                                </marker>
-                                <marker id="arrowhead-curve" markerWidth="10" markerHeight="7" refX="26" refY="3.5" orient="auto">
-                                    <polygon points="0 0, 10 3.5, 0 7" fill="#111111" />
-                                </marker>
-                            </defs>
-                            
-                            <!-- COLLEGAMENTI (Linee e Curve) -->
-                            <g stroke="#111111" stroke-width="3" fill="none">
-                                <!-- Verso il Leader (Marco) -->
-                                <line x1="400" y1="120" x2="400" y2="280" marker-end="url(#arrowhead)"/> <!-- Sofia -->
-                                <line x1="250" y1="180" x2="400" y2="280" marker-end="url(#arrowhead)"/> <!-- Elisa -->
-                                <line x1="250" y1="380" x2="400" y2="280" marker-end="url(#arrowhead)"/> <!-- Tommaso -->
-                                <line x1="400" y1="440" x2="400" y2="280" marker-end="url(#arrowhead)"/> <!-- Anna -->
-                                <line x1="550" y1="180" x2="400" y2="280" marker-end="url(#arrowhead)"/> <!-- Matteo -->
-                                
-                                <!-- Sottogruppo chiuso (Matteo, Leo, Davide) -->
-                                <line x1="550" y1="180" x2="680" y2="280" marker-end="url(#arrowhead)"/> <!-- Matteo -> Leo -->
-                                <line x1="680" y1="280" x2="550" y2="380" marker-end="url(#arrowhead)"/> <!-- Leo -> Davide -->
-                                <line x1="550" y1="380" x2="550" y2="180" marker-end="url(#arrowhead)"/> <!-- Davide -> Matteo -->
-
-                                <!-- Diade Reciproca (Giulia, Chiara) -->
-                                <path d="M 120 220 Q 90 280 120 340" marker-end="url(#arrowhead-curve)"/> <!-- Giulia -> Chiara -->
-                                <path d="M 120 340 Q 150 280 120 220" marker-end="url(#arrowhead-curve)"/> <!-- Chiara -> Giulia -->
-
-                                <!-- Isolati (Scelte non ricambiate) -->
-                                <line x1="720" y1="120" x2="680" y2="280" marker-end="url(#arrowhead)" stroke-dasharray="6,6"/> <!-- Luca -> Leo -->
-                                <line x1="720" y1="440" x2="400" y2="440" marker-end="url(#arrowhead)" stroke-dasharray="6,6"/> <!-- Sara -> Anna -->
-                            </g>
-
-                            <!-- NODI (Studenti) -->
-                            <g font-family="Space Grotesk" font-weight="bold" font-size="14" fill="#111111" text-anchor="middle">
-                                <!-- Leader -->
-                                <g class="sociogram-node" transform="translate(400, 280)">
-                                    <circle r="32" fill="var(--c-yellow)" stroke="#111111" stroke-width="4" />
-                                    <text y="5">MARCO</text>
-                                </g>
-
-                                <!-- Gregari -->
-                                <g class="sociogram-node" transform="translate(400, 120)">
-                                    <circle r="25" fill="var(--c-cyan)" stroke="#111111" stroke-width="3" />
-                                    <text y="5">SOFIA</text>
-                                </g>
-                                <g class="sociogram-node" transform="translate(250, 180)">
-                                    <circle r="25" fill="var(--c-cyan)" stroke="#111111" stroke-width="3" />
-                                    <text y="5">ELISA</text>
-                                </g>
-                                <g class="sociogram-node" transform="translate(250, 380)">
-                                    <circle r="25" fill="var(--c-cyan)" stroke="#111111" stroke-width="3" />
-                                    <text y="5">TOMMASO</text>
-                                </g>
-                                <g class="sociogram-node" transform="translate(400, 440)">
-                                    <circle r="25" fill="var(--c-cyan)" stroke="#111111" stroke-width="3" />
-                                    <text y="5">ANNA</text>
-                                </g>
-
-                                <!-- Diade Reciproca -->
-                                <g class="sociogram-node" transform="translate(120, 220)">
-                                    <circle r="25" fill="var(--c-pink)" stroke="#111111" stroke-width="3" />
-                                    <text y="5">GIULIA</text>
-                                </g>
-                                <g class="sociogram-node" transform="translate(120, 340)">
-                                    <circle r="25" fill="var(--c-pink)" stroke="#111111" stroke-width="3" />
-                                    <text y="5">CHIARA</text>
-                                </g>
-
-                                <!-- Sottogruppo chiuso -->
-                                <g class="sociogram-node" transform="translate(550, 180)">
-                                    <circle r="25" fill="var(--c-green)" stroke="#111111" stroke-width="3" />
-                                    <text y="5">MATTEO</text>
-                                </g>
-                                <g class="sociogram-node" transform="translate(680, 280)">
-                                    <circle r="25" fill="var(--c-green)" stroke="#111111" stroke-width="3" />
-                                    <text y="5">LEO</text>
-                                </g>
-                                <g class="sociogram-node" transform="translate(550, 380)">
-                                    <circle r="25" fill="var(--c-green)" stroke="#111111" stroke-width="3" />
-                                    <text y="5">DAVIDE</text>
-                                </g>
-
-                                <!-- Isolati / Marginali -->
-                                <g class="sociogram-node" transform="translate(720, 120)">
-                                    <circle r="25" fill="var(--c-white)" stroke="#111111" stroke-width="3" stroke-dasharray="4,4" />
-                                    <text y="5">LUCA</text>
-                                </g>
-                                <g class="sociogram-node" transform="translate(720, 440)">
-                                    <circle r="25" fill="var(--c-white)" stroke="#111111" stroke-width="3" stroke-dasharray="4,4" />
-                                    <text y="5">SARA</text>
-                                </g>
-                            </g>
-                        </svg>
-                    </div>
-
-                    <p style="font-style: italic; color: #ccc; font-size: 0.95rem;">"Chi definisce cosa è 'figo' nella nostra aula? Chi ride per primo? Chi decide quando si smette?"</p>
+                <div class="brutal-box" style="background: var(--text-dark); color: var(--c-white);">
+                    <h3 style="color: var(--c-yellow); margin-bottom: 1rem;"><i class="fa-solid fa-pen-ruler"></i> Esercizio Pratico</h3>
+                    <p style="margin-bottom: 1rem;"><strong>Mini-Mappatura del Campo:</strong><br>I docenti disegnano lo schema della classe (Centro → Leader, Cerchi Intermedi → Seguaci, Periferia → Isolati). Inseriscono le Frecce per indicare l’influenza reale.</p>
+                    <p style="font-style: italic; color: #ccc;">"Chi definisce cosa è 'figo'?"<br>"Chi ride per primo?"<br>"Chi decide quando si smette?"</p>
                 </div>
             </div>
         </div>
@@ -671,23 +533,23 @@
         <div class="section-header reveal reveal-scale">
             <div class="brutal-badge bg-orange">INCONTRO 2</div>
             <h2 class="section-title">Leadership e<br>Gestione del Conflitto</h2>
-            <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: 500;">Il ponte: Quale storia dà un senso a quel comportamento oppositivo?</p>
+            <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: 500;">Ponte: Quale storia dà un senso a quel comportamento?</p>
         </div>
 
         <div class="grid-2">
             <!-- Colonna Sx -->
             <div class="reveal reveal-left">
                 <h3 style="margin-bottom: 1.5rem;">1. Leadership nel Gruppo</h3>
-                <p style="font-size: 1.2rem; margin-bottom: 2rem;">La Leadership Adolescenziale non è solo carisma; è la <strong>gestione dello status</strong> all'interno dei pari.</p>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">La Leadership Adolescenziale non è solo carisma; è la <strong>gestione dello status</strong>.</p>
                 
                 <h3 style="margin-bottom: 1.5rem; margin-top: 3rem;">3. Vulnerabilità e Tipologie</h3>
                 <div class="brutal-box bg-pink" style="margin-bottom: 2rem;">
-                    <p><strong>Il leader negativo spesso nasconde:</strong><br>Alta sensibilità allo status, bassissima tolleranza alla frustrazione, terrore dell'umiliazione, autostima instabile, iperattivazione emotiva.</p>
+                    <p><strong>Il leader negativo nasconde:</strong><br>Alta sensibilità allo status, bassa tolleranza alla frustrazione, paura di umiliazione, autostima instabile, iperattivazione emotiva.</p>
                 </div>
                 <ul class="brutal-list">
-                    <li><i class="fa-solid fa-fire"></i> <strong>Impulsivo-aggressivo:</strong> Agisce, poi pensa. Difficoltà di regolazione.</li>
-                    <li><i class="fa-solid fa-masks-theater"></i> <strong>Carismatico-manipolativo:</strong> Abile socialmente, usa ironia e sarcasmo.</li>
-                    <li><i class="fa-solid fa-theater-masks"></i> <strong>Vittimista-oppositivo:</strong> Sfida la nostra autorità presentandosi come perseguitato.</li>
+                    <li><i class="fa-solid fa-fire"></i> <strong>Impulsivo-aggressivo:</strong> Agisce, poi pensa.</li>
+                    <li><i class="fa-solid fa-masks-theater"></i> <strong>Carismatico-manipolativo:</strong> Usa ironia e sarcasmo.</li>
+                    <li><i class="fa-solid fa-theater-masks"></i> <strong>Vittimista-oppositivo:</strong> Sfida l'autorità presentandosi come perseguitato.</li>
                 </ul>
             </div>
 
@@ -695,29 +557,29 @@
             <div class="reveal reveal-right">
                 <div class="brutal-box bg-cyan">
                     <h3 style="margin-bottom: 1rem;">2. Il Leader Negativo:<br>Analisi Funzionale</h3>
-                    <p style="margin-bottom: 1.5rem;"><strong>Perché Nasce?</strong><br>Per il gruppo: offre identità, riduce l’ansia collettiva, canalizza l’aggressività, sfida la nostra autorità per ridefinire le gerarchie.</p>
+                    <p style="margin-bottom: 1.5rem;"><strong>Perché Nasce?</strong><br>Offre identità, riduce l’ansia del gruppo, canalizza l’aggressività, sfida l’autorità per ridefinire le gerarchie.</p>
                     <p style="font-weight: bold; background: var(--c-white); padding: 1rem; border: 2px solid var(--text-dark); margin-bottom: 2rem;">
-                        "Il problema non è il leader negativo. Il problema è quando noi lo combattiamo frontalmente invece di comprenderne la funzione sistemica."
+                        "Il problema non è il leader negativo. Il problema è quando l’adulto lo combatte invece di comprenderne la funzione."
                     </p>
 
-                    <h4>Il Modello ABC</h4>
+                    <h4>Modello ABC</h4>
                     <div class="abc-flow" style="margin-top: 1rem;">
                         <div class="abc-step">
                             <div class="abc-letter">A</div>
                             <div class="abc-content">
-                                <strong>Antecedente</strong><br>Situazione di frustrazione, esposizione pubblica, una nostra richiesta di prestazione.
+                                <strong>Antecedente</strong><br>Situazione di frustrazione, esposizione pubblica, richiesta di prestazione.
                             </div>
                         </div>
                         <div class="abc-step">
                             <div class="abc-letter">B</div>
                             <div class="abc-content">
-                                <strong>Comportamento</strong><br>Battuta provocatoria, sfida diretta, risata strategica.
+                                <strong>Comportamento</strong><br>Battuta provocatoria, sfida al docente, risata strategica.
                             </div>
                         </div>
                         <div class="abc-step">
                             <div class="abc-letter">C</div>
                             <div class="abc-content">
-                                <strong>Conseguenza</strong><br>Risata del gruppo, aumento del suo status. <em>Il comportamento viene rinforzato.</em>
+                                <strong>Conseguenza</strong><br>Risata del gruppo, aumento dello status. <em>Il comportamento viene rinforzato.</em>
                             </div>
                         </div>
                     </div>
@@ -728,13 +590,13 @@
         <div class="brutal-box reveal reveal-up bg-green" style="margin-top: 4rem;">
             <div class="grid-2" style="align-items: center;">
                 <div>
-                    <h3 style="margin-bottom: 1rem;">4. La Trappola (L'Errore dell'Adulto)</h3>
-                    <p style="font-size: 1.2rem;"><strong>Lo scontro frontale pubblico.</strong><br>Se cadiamo nella trappola, aumentiamo l'attivazione emotiva e, involontariamente, innalziamo il prestigio del leader oppositivo nel gruppo.</p>
-                    <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: bold;">Il Passaggio Trasformativo:<br>Non possiamo "eliminare" un leader negativo. Dobbiamo convertirne la funzione.</p>
+                    <h3 style="margin-bottom: 1rem;">4. L'Errore dell'Adulto</h3>
+                    <p style="font-size: 1.2rem;"><strong>Lo scontro frontale pubblico.</strong><br>Aumenta l'attivazione emotiva, la polarizzazione e il prestigio del leader (attivazione assunto Attacco-Fuga).</p>
+                    <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: bold;">Passaggio Trasformativo:<br>Non si elimina un leader negativo. Si converte la funzione.</p>
                 </div>
                 <div class="brutal-box" style="background: var(--c-white);">
                     <h4 style="margin-bottom: 1rem;"><i class="fa-solid fa-users-viewfinder"></i> Role Playing</h4>
-                    <p>Mettiamoci nei panni del ragazzo oppositivo. Esploriamo diverse "storie di vita" come contesto di riferimento per decidere come calibrare la nostra reazione in aula.</p>
+                    <p>Riproposizione degli scenari dell'Incontro 1: i docenti si mettono nei panni del ragazzo oppositivo, analizzando la sua storia di vita per decidere la reazione adatta.</p>
                 </div>
             </div>
         </div>
@@ -747,30 +609,30 @@
         <div class="container" style="padding: 0;">
             <div class="section-header reveal reveal-up">
                 <h2 class="section-title" style="color: var(--text-dark); background: var(--c-yellow);">Il Ponte: La Metafora del Teatro</h2>
-                <p style="font-size: 1.4rem; margin-top: 2rem;">Il bivio: Rimanere critici passivi o diventare attori che improvvisano per cambiare la scena.</p>
+                <p style="font-size: 1.4rem; margin-top: 2rem;">Essere un critico passivo vs. un attore che improvvisa per cambiare la direzione dello spettacolo.</p>
             </div>
 
             <div class="theatre-grid">
                 <!-- Immagine Pre -->
                 <div class="theatre-card reveal reveal-left">
                     <div class="theatre-img-wrapper">
-                        <!-- Assicurati che l'immagine esista nella stessa cartella -->
+                        <!-- INSERIMENTO IMMAGINE 1 -->
                         <img src="./Metafora_pre.png" alt="Insegnante come spettatore passivo">
                     </div>
                     <div class="brutal-badge bg-pink" style="align-self: flex-start;">Lo Spettatore</div>
-                    <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Critici e Passivi</h3>
-                    <p style="font-size: 1.1rem; flex-grow: 1;">Osserviamo le dinamiche dal pubblico. Ci arrabbiamo e ci sentiamo impotenti di fronte al "copione" sbagliato degli studenti, ma non abbiamo il potere di salire sul palco. Subiamo la rappresentazione.</p>
+                    <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Critico e Passivo</h3>
+                    <p style="font-size: 1.1rem; flex-grow: 1;">L'insegnante che osserva le dinamiche dal pubblico. Giudica, si arrabbia per il copione sbagliato degli studenti, ma non ha il potere di salire sul palco e cambiare la scena. Subisce la rappresentazione.</p>
                 </div>
 
                 <!-- Immagine Post -->
                 <div class="theatre-card active-card reveal reveal-right delay-1">
                     <div class="theatre-img-wrapper">
-                        <!-- Assicurati che l'immagine esista nella stessa cartella -->
+                        <!-- INSERIMENTO IMMAGINE 2 -->
                         <img src="./Metafora_post.png" alt="Insegnante come attore protagonista">
                     </div>
                     <div class="brutal-badge bg-green" style="align-self: flex-start;">L'Attore Protagonista</div>
-                    <h3 style="margin-bottom: 1rem; color: var(--text-dark);">L'Improvvisazione Attiva</h3>
-                    <p style="font-size: 1.1rem; flex-grow: 1;">Siamo sul palco con loro. Riconosciamo la dinamica in corso e decidiamo di modificare il <em>nostro</em> copione. Facendo questo, influenziamo l'intero cast e cambiamo l'esito della rappresentazione.</p>
+                    <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Improvvisazione Attiva</h3>
+                    <p style="font-size: 1.1rem; flex-grow: 1;">L'insegnante sale sul palco. Riconosce il genere dello spettacolo in corso e decide di modificare il <em>proprio</em> copione per influenzare l'intero cast, reindirizzando l'esito della rappresentazione.</p>
                 </div>
             </div>
         </div>
@@ -783,45 +645,45 @@
         <div class="section-header reveal reveal-scale">
             <div class="brutal-badge bg-cyan">INCONTRO 3</div>
             <h2 class="section-title">L'Io Insegnante e il<br>Cambiamento Relazionale</h2>
-            <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: 500;">Portiamo la consapevolezza sul nostro ruolo per costruire un'autorevolezza efficace e trasformativa.</p>
+            <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: 500;">Obiettivo: Consapevolezza sul proprio ruolo per costruire un'autorevolezza efficace.</p>
         </div>
 
         <div class="grid-2">
             <div class="reveal reveal-left">
                 <div class="brutal-box bg-yellow" style="margin-bottom: 3rem;">
                     <h3 style="margin-bottom: 1rem;">1. La Risuonanza Simmetrica</h3>
-                    <p>I comportamenti disfunzionali degli allievi risuonano in noi emotivamente, spingendoci a una reazione impulsiva (il "contro-gioco").</p>
+                    <p>Come i comportamenti disfunzionali risuonano nell'insegnante stimolando il "contro-gioco".</p>
                     <p style="margin-top: 1rem; font-weight: bold;">Il Punto di Leva:</p>
-                    <p>Cambiare la nostra modalità relazionale (il nostro copione) è l'unico modo reale per disinnescare gli schemi disfunzionali della classe.</p>
+                    <p>Cambiare la propria modalità relazionale è l'unico modo per disinnescare gli schemi degli studenti.</p>
                 </div>
 
-                <h3 style="margin-bottom: 1.5rem;">2. Il Nostro ABC Cognitivo</h3>
+                <h3 style="margin-bottom: 1.5rem;">2. L'ABC Cognitivo Applicato</h3>
                 <ul class="brutal-list">
-                    <li><i class="fa-solid fa-a" style="color: var(--c-orange);"></i> <strong>Antecedente:</strong> Il comportamento disfunzionale dello studente verso di noi.</li>
-                    <li><i class="fa-solid fa-b" style="color: var(--c-pink);"></i> <strong>I Nostri Pensieri (Beliefs):</strong> "Mi sta sfidando", "Devo imporre la mia autorità".</li>
-                    <li><i class="fa-solid fa-c" style="color: var(--c-cyan);"></i> <strong>La Nostra Reazione:</strong> Rabbia, scontro frontale, sanzione pubblica.</li>
+                    <li><i class="fa-solid fa-a" style="color: var(--c-orange);"></i> <strong>Antecedente:</strong> Il comportamento disfunzionale dello studente.</li>
+                    <li><i class="fa-solid fa-b" style="color: var(--c-pink);"></i> <strong>Beliefs (Pensieri):</strong> "Mi sta sfidando", "Devo imporre l'autorità".</li>
+                    <li><i class="fa-solid fa-c" style="color: var(--c-cyan);"></i> <strong>Consequence:</strong> Rabbia, scontro frontale.</li>
                 </ul>
                 <div class="brutal-box" style="background: var(--text-dark); color: var(--c-white); padding: 1.5rem;">
                     <i class="fa-solid fa-arrows-spin" style="font-size: 1.5rem; color: var(--c-yellow); margin-bottom: 0.5rem;"></i>
-                    <p><strong>IL LOOP:</strong> La nostra conseguenza (C) diventa l'antecedente (A) della prossima interazione, blindando lo schema relazionale in classe.</p>
+                    <p><strong>IL LOOP:</strong> La conseguenza (C) diventa l'antecedente (A) della prossima interazione, blindando lo schema.</p>
                 </div>
             </div>
 
             <div class="reveal reveal-right">
                 <div class="brutal-box" style="height: 100%;">
-                    <h3 style="margin-bottom: 2rem; border-bottom: var(--border-thick); padding-bottom: 1rem;">3. Costruire Autorevolezza</h3>
+                    <h3 style="margin-bottom: 2rem; border-bottom: var(--border-thick); padding-bottom: 1rem;">3. Costruire Autorevolezza Trasformativa</h3>
                     
                     <h4 style="color: var(--c-orange); margin-bottom: 0.5rem;">L'Interruzione del Loop</h4>
-                    <p style="margin-bottom: 1.5rem;">Passare dalla reazione impulsiva simmetrica a una risposta asimmetrica. Interpretiamo il comportamento non come un attacco personale a noi, ma come un segnale dei bisogni del gruppo.</p>
+                    <p style="margin-bottom: 1.5rem;">Passare dalla reazione simmetrica alla risposta asimmetrica. Usare Tuckman, Bion e l'ABC per interpretare il comportamento come un segnale del gruppo, non un attacco personale.</p>
                     
                     <h4 style="color: var(--c-cyan); margin-bottom: 0.5rem;">Contenimento Emozionale</h4>
-                    <p style="margin-bottom: 1.5rem;">Manteniamo la lucidità e la funzione normativa anche quando la classe è in piena fase di Storming o nell'assunto di Attacco-Fuga.</p>
+                    <p style="margin-bottom: 1.5rem;">Mantenere la calma e la funzione normativa anche durante lo Storming o l'Attacco-Fuga.</p>
 
-                    <h4 style="color: var(--c-pink); margin-bottom: 0.5rem;">Il Colloquio Privato</h4>
-                    <p style="margin-bottom: 1.5rem;">Disinneschiamo l'arena pubblica: togliamo il pubblico al leader oppositivo spostando il confronto nel privato, attraverso l'ascolto e il riconoscimento.</p>
+                    <h4 style="color: var(--c-pink); margin-bottom: 0.5rem;">Colloquio Privato</h4>
+                    <p style="margin-bottom: 1.5rem;">Disinnescare lo scontro pubblico (che aumenta lo status del leader) attraverso il riconoscimento in separata sede.</p>
 
                     <h4 style="color: var(--c-green); margin-bottom: 0.5rem;">Conversione della Funzione</h4>
-                    <p>Reindirizziamo attivamente la sua energia: <em>"Vedo che hai molta influenza in questa classe. Proviamo a usarla per..."</em></p>
+                    <p>Reindirizzare l'energia verso un ruolo prosociale: <em>"Vedo che hai molta influenza, usiamola per..."</em></p>
                 </div>
             </div>
         </div>
@@ -831,14 +693,15 @@
             <i class="fa-solid fa-brain" style="font-size: 4rem; margin-bottom: 1.5rem; color: var(--text-dark);"></i>
             <h2 style="font-size: 3rem; margin-bottom: 1rem;">Strumento di Chiusura</h2>
             <p style="font-size: 1.5rem; max-width: 800px; margin: 0 auto; font-weight: 500;">
-                Analizziamo insieme degli scenari tipici per identificare i <strong>nostri</strong> pensieri automatici e imparare a ristrutturarli in una risposta efficace e autorevole.
+                Esercizio ABC Cognitivo: Lavorare su scenari tipici per identificare i pensieri automatici degli insegnanti e ristrutturarli in una risposta più efficace e autorevole.
             </p>
         </div>
     </section>
 
     <!-- Footer -->
     <footer style="text-align: center; padding: 3rem; background: var(--text-dark); color: var(--c-white); font-family: 'Space Grotesk', sans-serif;">
-        <p>Formazione Psicopedagogica CFP - Dinamiche e Relazioni in Classe</p>
+        <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">Formazione Psicopedagogica CFP - Dinamiche e Relazioni</p>
+        <p style="color: var(--c-yellow); font-size: 1rem;">D.ssa Chiara Marchi PhD &bull; Dr. Stefano Neve</p>
     </footer>
 
     <!-- ==========================================
@@ -859,18 +722,18 @@
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.15 
+                threshold: 0.15 // Innesca l'animazione quando il 15% dell'elemento è visibile
             };
 
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        
-                        // FIX PER IL FLICKERING
-                        // Interrompendo l'osservazione, l'elemento non tornerà "invisibile" 
-                        // se un movimento di hover lo fa uscire temporaneamente dalla soglia.
-                        observer.unobserve(entry.target);
+                        // Opzionale: smette di osservare dopo che è apparso una volta (rimuovi per far ripetere l'animazione su/giù)
+                        // observer.unobserve(entry.target);
+                    } else {
+                        // Rimuove la classe per ripetere l'animazione scendendo/salendo
+                        entry.target.classList.remove('active');
                     }
                 });
             }, observerOptions);
